@@ -30,15 +30,29 @@ void start_command(char *command, char **argv) {
 				waitpid(child_pid, &status, 0);
 				if (errno) panic("waitpid");
 				if (WIFEXITED(status)) {
-					ft_logstr(DEBUG, "child is done\n");
+					ft_logstr(DEBUG, "child exited\n");
 					break;
 				}
+				if (WIFSIGNALED(status)) {
+					ft_logstr(DEBUG, "child exited due to signal\n");
+					break;
+				}
+				if (WSTOPSIG(status) != SIGTRAP) {
+					ft_logstr(DEBUG, "child stopped due to signal\n");
+					continue;
+				}
 				ptrace(PTRACE_GETREGS, child_pid, NULL, &regs);
-				printf("syscall %llu called with %llu, %llu, %llu\n", regs.orig_rax, regs.rbx, regs.rcx, regs.rdx);
-				printf("syscall %s called with %p, %p, %p\n", syscalls[regs.orig_rax], (void *)regs.rbx, (void *)regs.rcx, (void *)regs.rdx);
+				// TODO Check behavior on 32 bits
+				if (regs.rax == 0xffffffffffffffda) {
+					ptrace(PTRACE_SYSCALL, child_pid, NULL, NULL);
+					continue;
+				}
+				// TODO This is ugly, fix the sizeof
+				unsigned long long offset = regs.orig_rax * sizeof(char[29]);
+				char *syscall = (char *)syscalls + offset;
+				printf("%s(%p, %p, %p) = %lld\n", syscall, (void *)regs.rbx, (void *)regs.rcx, (void *)regs.rdx, (long long)regs.rax);
 				ptrace(PTRACE_SYSCALL, child_pid, NULL, NULL);
 			}
-			break;
 	}
 }
 
