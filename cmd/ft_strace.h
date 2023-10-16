@@ -9,6 +9,12 @@
 # include <ft_list.h>
 # include <ft_string.h>
 # include <ft_error.h>
+# include <sys/wait.h>
+# include <sys/ptrace.h>
+# include <fcntl.h>
+# include <sys/user.h>
+# include <elf.h>
+# include <bits/types/struct_iovec.h>
 
 # include "syscalls.h"
 
@@ -17,6 +23,8 @@
 # define STRACE_SET_FLAG(flags, flag) (flags |= flag)
 # define STRACE_CLEAR_FLAG(flags, flag) (flags &= ~(flag))
 # define STRACE_HAS_FLAG(flags, flag) (flags & flag)
+
+# define STRACE_MAX_STRING_SIZE 16
 
 typedef struct s_strace_args {
 	ft_list *files;

@@ -2,340 +2,1357 @@
 // Created by millefeuille on 9/20/23.
 //
 
-char syscalls[400][29] = {
-		"read",
-		"write",
-		"open",
-		"close",
-		"stat",
-		"fstat",
-		"lstat",
-		"poll_time64",
-		"lseek",
-		"mmap",
-		"mprotect",
-		"munmap",
-		"brk",
-		"rt_sigaction",
-		"rt_sigprocmask",
-		"rt_sigreturn",
-		"ioctl",
-		"pread",
-		"pwrite",
-		"readv",
-		"writev",
-		"access",
-		"pipe",
-		"select",
-		"sched_yield",
-		"mremap",
-		"msync",
-		"mincore",
-		"madvise",
-		"shmget",
-		"shmat",
-		"shmctl",
-		"dup",
-		"dup2",
-		"pause",
-		"nanosleep_time64",
-		"getitimer",
-		"alarm",
-		"setitimer",
-		"getpid",
-		"sendfile64",
-		"socket",
-		"connect",
-		"accept",
-		"sendto",
-		"recvfrom",
-		"sendmsg",
-		"recvmsg",
-		"shutdown",
-		"bind",
-		"listen",
-		"getsockname",
-		"getpeername",
-		"socketpair",
-		"setsockopt",
-		"getsockopt",
-		"clone",
-		"fork",
-		"vfork",
-		"execve",
-		"exit",
-		"wait4",
-		"kill",
-		"uname",
-		"semget",
-		"semop",
-		"semctl",
-		"shmdt",
-		"msgget",
-		"msgsnd",
-		"msgrcv",
-		"msgctl",
-		"fcntl",
-		"flock",
-		"fsync",
-		"fdatasync",
-		"truncate",
-		"ftruncate",
-		"getdents",
-		"getcwd",
-		"chdir",
-		"fchdir",
-		"rename",
-		"mkdir",
-		"rmdir",
-		"creat",
-		"link",
-		"unlink",
-		"symlink",
-		"readlink",
-		"chmod",
-		"fchmod",
-		"chown",
-		"fchown",
-		"chown",
-		"umask",
-		"gettimeofday",
-		"getrlimit",
-		"getrusage",
-		"sysinfo",
-		"times",
-		"ptrace",
-		"getuid",
-		"syslog",
-		"getgid",
-		"setuid",
-		"setgid",
-		"geteuid",
-		"getegid",
-		"setpgid",
-		"getppid",
-		"getpgrp",
-		"setsid",
-		"setreuid",
-		"setregid",
-		"getgroups",
-		"setgroups",
-		"setresuid",
-		"getresuid",
-		"setresgid",
-		"getresgid",
-		"getpgid",
-		"setfsuid",
-		"setfsgid",
-		"getsid",
-		"capget",
-		"capset",
-		"rt_sigpending",
-		"rt_sigtimedwait_time64",
-		"rt_sigqueueinfo",
-		"rt_sigsuspend",
-		"sigaltstack",
-		"utime",
-		"mknod",
-		"uselib",
-		"personality",
-		"ustat",
-		"statfs",
-		"fstatfs",
-		"sysfs",
-		"getpriority",
-		"setpriority",
-		"sched_setparam",
-		"sched_getparam",
-		"sched_setscheduler",
-		"sched_getscheduler",
-		"sched_get_priority_max",
-		"sched_get_priority_min",
-		"sched_rr_get_interval_time64",
-		"mlock",
-		"munlock",
-		"mlockall",
-		"munlockall",
-		"vhangup",
-		"modify_ldt",
-		"pivotroot",
-		"sysctl",
-		"prctl",
-		"arch_prctl",
-		"adjtimex64",
-		"setrlimit",
-		"chroot",
-		"sync",
-		"acct",
-		"settimeofday",
-		"mount",
-		"umount2",
-		"swapon",
-		"swapoff",
-		"reboot",
-		"sethostname",
-		"setdomainname",
-		"iopl",
-		"ioperm",
-		"create_module",
-		"init_module",
-		"delete_module",
-		"get_kernel_syms",
-		"query_module",
-		"quotactl",
-		"nfsservctl",
-		"getpmsg",
-		"putpmsg",
-		"afs_syscall",
-		"tuxcall",
-		"security",
-		"gettid",
-		"readahead",
-		"setxattr",
-		"setxattr",
-		"fsetxattr",
-		"getxattr",
-		"getxattr",
-		"fgetxattr",
-		"listxattr",
-		"listxattr",
-		"flistxattr",
-		"removexattr",
-		"removexattr",
-		"fremovexattr",
-		"tkill",
-		"time",
-		"futex_time64",
-		"sched_setaffinity",
-		"sched_getaffinity",
-		"set_thread_area",
-		"io_setup",
-		"io_destroy",
-		"io_getevents_time64",
-		"io_submit",
-		"io_cancel",
-		"get_thread_area",
-		"lookup_dcookie",
-		"epoll_create",
-		"printargs",
-		"printargs",
-		"remap_file_pages",
-		"getdents64",
-		"set_tid_address",
-		"restart_syscall",
-		"semtimedop_time64",
-		"fadvise64",
-		"timer_create",
-		"timer_settime64",
-		"timer_gettime64",
-		"timer_getoverrun",
-		"timer_delete",
-		"clock_settime64",
-		"clock_gettime64",
-		"clock_getres_time64",
-		"clock_nanosleep_time64",
-		"exit",
-		"epoll_wait",
-		"epoll_ctl",
-		"tgkill",
-		"utimes",
-		"vserver",
-		"mbind",
-		"set_mempolicy",
-		"get_mempolicy",
-		"mq_open",
-		"mq_unlink",
-		"mq_timedsend_time64",
-		"mq_timedreceive_time64",
-		"mq_notify",
-		"mq_getsetattr",
-		"kexec_load",
-		"waitid",
-		"add_key",
-		"request_key",
-		"keyctl",
-		"ioprio_set",
-		"ioprio_get",
-		"inotify_init",
-		"inotify_add_watch",
-		"inotify_rm_watch",
-		"migrate_pages",
-		"openat",
-		"mkdirat",
-		"mknodat",
-		"fchownat",
-		"futimesat",
-		"newfstatat",
-		"unlinkat",
-		"renameat",
-		"linkat",
-		"symlinkat",
-		"readlinkat",
-		"fchmodat",
-		"faccessat",
-		"pselect6_time64",
-		"ppoll_time64",
-		"unshare",
-		"set_robust_list",
-		"get_robust_list",
-		"splice",
-		"tee",
-		"sync_file_range",
-		"vmsplice",
-		"move_pages",
-		"utimensat_time64",
-		"epoll_pwait",
-		"signalfd",
-		"timerfd_create",
-		"eventfd",
-		"fallocate",
-		"timerfd_settime64",
-		"timerfd_gettime64",
-		"accept4",
-		"signalfd4",
-		"eventfd2",
-		"epoll_create1",
-		"dup3",
-		"pipe2",
-		"inotify_init1",
-		"preadv",
-		"pwritev",
-		"rt_tgsigqueueinfo",
-		"perf_event_open",
-		"recvmmsg_time64",
-		"fanotify_init",
-		"fanotify_mark",
-		"prlimit64",
-		"name_to_handle_at",
-		"open_by_handle_at",
-		"clock_adjtime64",
-		"syncfs",
-		"sendmmsg",
-		"setns",
-		"getcpu",
-		"process_vm_readv",
-		"process_vm_writev",
-		"kcmp",
-		"finit_module",
-		"sched_setattr",
-		"sched_getattr",
-		"renameat2",
-		"seccomp",
-		"getrandom",
-		"memfd_create",
-		"kexec_file_load",
-		"bpf",
-		"execveat",
-		"userfaultfd",
-		"membarrier",
-		"mlock2",
-		"copy_file_range",
-		"preadv2",
-		"pwritev2",
-		"pkey_mprotect",
-		"pkey_alloc",
-		"pkey_free",
-		"statx",
-		"io_pgetevents_time64",
-		"rseq",
+#include "syscalls.h"
+
+t_syscall syscalls[400] = {
+		{
+				.name = "read",
+				.toggle = STS_TA,
+				.settings = STS_BI|STS_DI|STS_AI
+		},
+		{
+				.name = "write",
+				.toggle = STS_TA,
+				.settings = STS_BI|STS_CS|STS_DI|STS_AI
+		},
+		{
+				.name = "open",
+				.toggle = STS_TA,
+				.settings = STS_BS|STS_CI|STS_DI|STS_AI
+		},
+		{
+				.name = "close",
+				.toggle = STS_B|STS_A,
+				.settings = STS_BI|STS_AI
+		},
+		{
+				.name = "stat",
+				.toggle = STS_B|STS_C|STS_A,
+				.settings = STS_BS
+		},
+		{
+				.name = "fstat",
+				.toggle = STS_B|STS_C|STS_A,
+				.settings = STS_BI
+		},
+		{
+				.name = "lstat",
+				.toggle = STS_B|STS_C|STS_A,
+				.settings = STS_BS
+		},
+		{
+				.name = "poll_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "lseek",
+				.toggle = STS_TA,
+				.settings = STS_BI|STS_CI|STS_DI|STS_AI
+		},
+		{
+				.name = "mmap",
+				.toggle = STS_TA,
+		},
+		{
+				.name = "mprotect",
+				.toggle = STS_TA
+		},
+		{
+				.name = "munmap",
+				.toggle = STS_B|STS_C,
+				.settings = STS_CI|STS_AI
+		},
+		{
+				.name = "brk",
+				.toggle = STS_B|STS_A,
+		},
+		{
+				.name = "rt_sigaction",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rt_sigprocmask",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rt_sigreturn",
+				.toggle = STS_TA
+		},
+		{
+				.name = "ioctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pread",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pwrite",
+				.toggle = STS_TA
+		},
+		{
+				.name = "readv",
+				.toggle = STS_TA
+		},
+		{
+				.name = "writev",
+				.toggle = STS_TA
+		},
+		{
+				.name = "acceSTS",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pipe",
+				.toggle = STS_TA
+		},
+		{
+				.name = "select",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_yield",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mremap",
+				.toggle = STS_TA
+		},
+		{
+				.name = "msync",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mincore",
+				.toggle = STS_TA
+		},
+		{
+				.name = "madvise",
+				.toggle = STS_TA
+		},
+		{
+				.name = "shmget",
+				.toggle = STS_TA
+		},
+		{
+				.name = "shmat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "shmctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "dup",
+				.toggle = STS_TA
+		},
+		{
+				.name = "dup2",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pause",
+				.toggle = STS_TA
+		},
+		{
+				.name = "nanosleep_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getitimer",
+				.toggle = STS_TA
+		},
+		{
+				.name = "alarm",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setitimer",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getpid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sendfile64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "socket",
+				.toggle = STS_TA
+		},
+		{
+				.name = "connect",
+				.toggle = STS_TA
+		},
+		{
+				.name = "accept",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sendto",
+				.toggle = STS_TA
+		},
+		{
+				.name = "recvfrom",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sendmsg",
+				.toggle = STS_TA
+		},
+		{
+				.name = "recvmsg",
+				.toggle = STS_TA
+		},
+		{
+				.name = "shutdown",
+				.toggle = STS_TA
+		},
+		{
+				.name = "bind",
+				.toggle = STS_TA
+		},
+		{
+				.name = "listen",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getsockname",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getpeername",
+				.toggle = STS_TA
+		},
+		{
+				.name = "socketpair",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setsockopt",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getsockopt",
+				.toggle = STS_TA
+		},
+		{
+				.name = "clone",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fork",
+				.toggle = STS_TA
+		},
+		{
+				.name = "vfork",
+				.toggle = STS_TA
+		},
+		{
+				.name = "execve",
+				.toggle = STS_TA
+		},
+		{
+				.name = "exit",
+				.toggle = STS_TA
+		},
+		{
+				.name = "wait4",
+				.toggle = STS_TA
+		},
+		{
+				.name = "kill",
+				.toggle = STS_TA
+		},
+		{
+				.name = "uname",
+				.toggle = STS_TA
+		},
+		{
+				.name = "semget",
+				.toggle = STS_TA
+		},
+		{
+				.name = "semop",
+				.toggle = STS_TA
+		},
+		{
+				.name = "semctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "shmdt",
+				.toggle = STS_TA
+		},
+		{
+				.name = "msgget",
+				.toggle = STS_TA
+		},
+		{
+				.name = "msgsnd",
+				.toggle = STS_TA
+		},
+		{
+				.name = "msgrcv",
+				.toggle = STS_TA
+		},
+		{
+				.name = "msgctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fcntl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "flock",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fsync",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fdatasync",
+				.toggle = STS_TA
+		},
+		{
+				.name = "truncate",
+				.toggle = STS_TA
+		},
+		{
+				.name = "ftruncate",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getdents",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getcwd",
+				.toggle = STS_TA
+		},
+		{
+				.name = "chdir",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fchdir",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rename",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mkdir",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rmdir",
+				.toggle = STS_TA
+		},
+		{
+				.name = "creat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "link",
+				.toggle = STS_TA
+		},
+		{
+				.name = "unlink",
+				.toggle = STS_TA
+		},
+		{
+				.name = "symlink",
+				.toggle = STS_TA
+		},
+		{
+				.name = "readlink",
+				.toggle = STS_TA
+		},
+		{
+				.name = "chmod",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fchmod",
+				.toggle = STS_TA
+		},
+		{
+				.name = "chown",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fchown",
+				.toggle = STS_TA
+		},
+		{
+				.name = "chown",
+				.toggle = STS_TA
+		},
+		{
+				.name = "umask",
+				.toggle = STS_TA
+		},
+		{
+				.name = "gettimeofday",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getrlimit",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getrusage",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sysinfo",
+				.toggle = STS_TA
+		},
+		{
+				.name = "times",
+				.toggle = STS_TA
+		},
+		{
+				.name = "ptrace",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getuid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "syslog",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getgid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setuid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setgid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "geteuid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getegid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setpgid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getppid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getpgrp",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setsid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setreuid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setregid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getgroups",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setgroups",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setresuid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getresuid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setresgid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getresgid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getpgid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setfsuid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setfsgid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getsid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "capget",
+				.toggle = STS_TA
+		},
+		{
+				.name = "capset",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rt_sigpending",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rt_sigtimedwait_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rt_sigqueueinfo",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rt_sigsuspend",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sigaltstack",
+				.toggle = STS_TA
+		},
+		{
+				.name = "utime",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mknod",
+				.toggle = STS_TA
+		},
+		{
+				.name = "uselib",
+				.toggle = STS_TA
+		},
+		{
+				.name = "personality",
+				.toggle = STS_TA
+		},
+		{
+				.name = "ustat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "statfs",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fstatfs",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sysfs",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getpriority",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setpriority",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_setparam",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_getparam",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_setscheduler",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_getscheduler",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_get_priority_max",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_get_priority_min",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_rr_get_interval_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mlock",
+				.toggle = STS_TA
+		},
+		{
+				.name = "munlock",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mlockall",
+				.toggle = STS_TA
+		},
+		{
+				.name = "munlockall",
+				.toggle = STS_TA
+		},
+		{
+				.name = "vhangup",
+				.toggle = STS_TA
+		},
+		{
+				.name = "modify_ldt",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pivotroot",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sysctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "prctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "arch_prctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "adjtimex64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setrlimit",
+				.toggle = STS_TA
+		},
+		{
+				.name = "chroot",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sync",
+				.toggle = STS_TA
+		},
+		{
+				.name = "acct",
+				.toggle = STS_TA
+		},
+		{
+				.name = "settimeofday",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mount",
+				.toggle = STS_TA
+		},
+		{
+				.name = "umount2",
+				.toggle = STS_TA
+		},
+		{
+				.name = "swapon",
+				.toggle = STS_TA
+		},
+		{
+				.name = "swapoff",
+				.toggle = STS_TA
+		},
+		{
+				.name = "reboot",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sethostname",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setdomainname",
+				.toggle = STS_TA
+		},
+		{
+				.name = "iopl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "ioperm",
+				.toggle = STS_TA
+		},
+		{
+				.name = "create_module",
+				.toggle = STS_TA
+		},
+		{
+				.name = "init_module",
+				.toggle = STS_TA
+		},
+		{
+				.name = "delete_module",
+				.toggle = STS_TA
+		},
+		{
+				.name = "get_kernel_syms",
+				.toggle = STS_TA
+		},
+		{
+				.name = "query_module",
+				.toggle = STS_TA
+		},
+		{
+				.name = "quotactl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "nfSTServctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getpmsg",
+				.toggle = STS_TA
+		},
+		{
+				.name = "putpmsg",
+				.toggle = STS_TA
+		},
+		{
+				.name = "afs_syscall",
+				.toggle = STS_TA
+		},
+		{
+				.name = "tuxcall",
+				.toggle = STS_TA
+		},
+		{
+				.name = "security",
+				.toggle = STS_TA
+		},
+		{
+				.name = "gettid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "readahead",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fsetxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fgetxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "listxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "listxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "flistxattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "removexattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "removexattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fremovexattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "tkill",
+				.toggle = STS_TA
+		},
+		{
+				.name = "time",
+				.toggle = STS_TA
+		},
+		{
+				.name = "futex_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_setaffinity",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_getaffinity",
+				.toggle = STS_TA
+		},
+		{
+				.name = "set_thread_area",
+				.toggle = STS_TA
+		},
+		{
+				.name = "io_setup",
+				.toggle = STS_TA
+		},
+		{
+				.name = "io_destroy",
+				.toggle = STS_TA
+		},
+		{
+				.name = "io_getevents_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "io_submit",
+				.toggle = STS_TA
+		},
+		{
+				.name = "io_cancel",
+				.toggle = STS_TA
+		},
+		{
+				.name = "get_thread_area",
+				.toggle = STS_TA
+		},
+		{
+				.name = "lookup_dcookie",
+				.toggle = STS_TA
+		},
+		{
+				.name = "epoll_create",
+				.toggle = STS_TA
+		},
+		{
+				.name = "printargs",
+				.toggle = STS_TA
+		},
+		{
+				.name = "printargs",
+				.toggle = STS_TA
+		},
+		{
+				.name = "remap_file_pages",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getdents64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "set_tid_addreSTS",
+				.toggle = STS_TA
+		},
+		{
+				.name = "restart_syscall",
+				.toggle = STS_TA
+		},
+		{
+				.name = "semtimedop_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fadvise64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "timer_create",
+				.toggle = STS_TA
+		},
+		{
+				.name = "timer_settime64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "timer_gettime64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "timer_getoverrun",
+				.toggle = STS_TA
+		},
+		{
+				.name = "timer_delete",
+				.toggle = STS_TA
+		},
+		{
+				.name = "clock_settime64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "clock_gettime64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "clock_getres_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "clock_nanosleep_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "exit",
+				.toggle = STS_TA
+		},
+		{
+				.name = "epoll_wait",
+				.toggle = STS_TA
+		},
+		{
+				.name = "epoll_ctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "tgkill",
+				.toggle = STS_TA
+		},
+		{
+				.name = "utimes",
+				.toggle = STS_TA
+		},
+		{
+				.name = "vserver",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mbind",
+				.toggle = STS_TA
+		},
+		{
+				.name = "set_mempolicy",
+				.toggle = STS_TA
+		},
+		{
+				.name = "get_mempolicy",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mq_open",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mq_unlink",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mq_timedsend_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mq_timedreceive_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mq_notify",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mq_getsetattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "kexec_load",
+				.toggle = STS_TA
+		},
+		{
+				.name = "waitid",
+				.toggle = STS_TA
+		},
+		{
+				.name = "add_key",
+				.toggle = STS_TA
+		},
+		{
+				.name = "request_key",
+				.toggle = STS_TA
+		},
+		{
+				.name = "keyctl",
+				.toggle = STS_TA
+		},
+		{
+				.name = "ioprio_set",
+				.toggle = STS_TA
+		},
+		{
+				.name = "ioprio_get",
+				.toggle = STS_TA
+		},
+		{
+				.name = "inotify_init",
+				.toggle = STS_TA
+		},
+		{
+				.name = "inotify_add_watch",
+				.toggle = STS_TA
+		},
+		{
+				.name = "inotify_rm_watch",
+				.toggle = STS_TA
+		},
+		{
+				.name = "migrate_pages",
+				.toggle = STS_TA
+		},
+		{
+				.name = "openat",
+				.toggle = STS_TA,
+				.settings = STS_BI|STS_CS|STS_DI|STS_AI,
+		},
+		{
+				.name = "mkdirat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mknodat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fchownat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "futimesat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "newfstatat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "unlinkat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "renameat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "linkat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "symlinkat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "readlinkat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fchmodat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "facceSTSat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pselect6_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "ppoll_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "unshare",
+				.toggle = STS_TA
+		},
+		{
+				.name = "set_robust_list",
+				.toggle = STS_TA
+		},
+		{
+				.name = "get_robust_list",
+				.toggle = STS_TA
+		},
+		{
+				.name = "splice",
+				.toggle = STS_TA
+		},
+		{
+				.name = "tee",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sync_file_range",
+				.toggle = STS_TA
+		},
+		{
+				.name = "vmsplice",
+				.toggle = STS_TA
+		},
+		{
+				.name = "move_pages",
+				.toggle = STS_TA
+		},
+		{
+				.name = "utimensat_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "epoll_pwait",
+				.toggle = STS_TA
+		},
+		{
+				.name = "signalfd",
+				.toggle = STS_TA
+		},
+		{
+				.name = "timerfd_create",
+				.toggle = STS_TA
+		},
+		{
+				.name = "eventfd",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fallocate",
+				.toggle = STS_TA
+		},
+		{
+				.name = "timerfd_settime64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "timerfd_gettime64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "accept4",
+				.toggle = STS_TA
+		},
+		{
+				.name = "signalfd4",
+				.toggle = STS_TA
+		},
+		{
+				.name = "eventfd2",
+				.toggle = STS_TA
+		},
+		{
+				.name = "epoll_create1",
+				.toggle = STS_TA
+		},
+		{
+				.name = "dup3",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pipe2",
+				.toggle = STS_TA
+		},
+		{
+				.name = "inotify_init1",
+				.toggle = STS_TA
+		},
+		{
+				.name = "preadv",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pwritev",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rt_tgsigqueueinfo",
+				.toggle = STS_TA
+		},
+		{
+				.name = "perf_event_open",
+				.toggle = STS_TA
+		},
+		{
+				.name = "recvmmsg_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fanotify_init",
+				.toggle = STS_TA
+		},
+		{
+				.name = "fanotify_mark",
+				.toggle = STS_TA
+		},
+		{
+				.name = "prlimit64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "name_to_handle_at",
+				.toggle = STS_TA
+		},
+		{
+				.name = "open_by_handle_at",
+				.toggle = STS_TA
+		},
+		{
+				.name = "clock_adjtime64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "syncfs",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sendmmsg",
+				.toggle = STS_TA
+		},
+		{
+				.name = "setns",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getcpu",
+				.toggle = STS_TA
+		},
+		{
+				.name = "proceSTS_vm_readv",
+				.toggle = STS_TA
+		},
+		{
+				.name = "proceSTS_vm_writev",
+				.toggle = STS_TA
+		},
+		{
+				.name = "kcmp",
+				.toggle = STS_TA
+		},
+		{
+				.name = "finit_module",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_setattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "sched_getattr",
+				.toggle = STS_TA
+		},
+		{
+				.name = "renameat2",
+				.toggle = STS_TA
+		},
+		{
+				.name = "seccomp",
+				.toggle = STS_TA
+		},
+		{
+				.name = "getrandom",
+				.toggle = STS_TA
+		},
+		{
+				.name = "memfd_create",
+				.toggle = STS_TA
+		},
+		{
+				.name = "kexec_file_load",
+				.toggle = STS_TA
+		},
+		{
+				.name = "bpf",
+				.toggle = STS_TA
+		},
+		{
+				.name = "execveat",
+				.toggle = STS_TA
+		},
+		{
+				.name = "userfaultfd",
+				.toggle = STS_TA
+		},
+		{
+				.name = "membarrier",
+				.toggle = STS_TA
+		},
+		{
+				.name = "mlock2",
+				.toggle = STS_TA
+		},
+		{
+				.name = "copy_file_range",
+				.toggle = STS_TA
+		},
+		{
+				.name = "preadv2",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pwritev2",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pkey_mprotect",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pkey_alloc",
+				.toggle = STS_TA
+		},
+		{
+				.name = "pkey_free",
+				.toggle = STS_TA
+		},
+		{
+				.name = "statx",
+				.toggle = STS_TA
+		},
+		{
+				.name = "io_pgetevents_time64",
+				.toggle = STS_TA
+		},
+		{
+				.name = "rseq",
+				.toggle = STS_TA
+		},
 };
