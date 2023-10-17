@@ -34,6 +34,7 @@ void start_command(char *command, char **argv) {
 	}
 }
 
+// TODO investigate difference with discord
 int main(int argc, char *argv[]) {
 	strace_args args = parse_args(argc, argv);
 	if (args.err) {

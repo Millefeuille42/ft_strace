@@ -6,6 +6,7 @@
 
 t_syscall syscall_unknown = (t_syscall){.name="UNKNOWN", .toggle=STS_TA};
 
+// TODO add others syscall management
 t_syscall syscalls[400] = {
 		{
 				.name = "read",
