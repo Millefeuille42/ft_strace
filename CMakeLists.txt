@@ -57,10 +57,15 @@ set(SOURCE_FT_STRACE
 		pkg/ft_memory/ft_memory.h
 
 		cmd/ft_strace.c
-		cmd/ft_strace.h
 		cmd/parsing.c
+		cmd/trace_loop.c
+		cmd/utils.c
+		cmd/trace_print.c
+		cmd/ft_strace.h
+
 		cmd/syscalls.h
 		cmd/syscalls.c
+
 )
 
 add_executable(ft_strace ${SOURCE_FT_STRACE})

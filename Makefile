@@ -46,8 +46,11 @@ SOURCES	=			pkg/ft_print/ft_putnbr_in_between.c \
             		pkg/ft_memory/del_array.c \
             		pkg/ft_memory/safe_free.c \
             		cmd/ft_strace.c \
-            		cmd/syscalls.c \
+					cmd/trace_loop.c\
+					cmd/utils.c\
+					cmd/trace_print.c\
             		cmd/parsing.c \
+            		cmd/syscalls.c \
 
 HEADERS	=	pkg/ft_print/ft_print.h \
             pkg/ft_log/ft_log.h \
@@ -56,6 +59,7 @@ HEADERS	=	pkg/ft_print/ft_print.h \
             pkg/ft_memory/ft_memory.h \
             pkg/ft_string/ft_string.h \
 			cmd/ft_strace.h\
+			cmd/syscalls.h\
 
 HEADERS_DIRECTORIES	=	pkg/ft_print/ \
                         pkg/ft_log/ \
@@ -90,7 +94,7 @@ vpath	%.h $(HEADERS_DIRECTORIES)
 ifdef LOG_LEVEL
         DEFINES +=  -DLOG_LEVEL=$(LOG_LEVEL)
 else
-        DEFINES +=  -DLOG_LEVEL=DEBUG
+        DEFINES +=  -DLOG_LEVEL=INFO
 endif
 
 # ################################### #

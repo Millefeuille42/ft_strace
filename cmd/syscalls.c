@@ -4,41 +4,43 @@
 
 #include "syscalls.h"
 
+t_syscall syscall_unknown = (t_syscall){.name="UNKNOWN", .toggle=STS_TA};
+
 t_syscall syscalls[400] = {
 		{
 				.name = "read",
 				.toggle = STS_TA,
-				.settings = STS_BI|STS_DI|STS_AI
+				.settings = STS_1I | STS_3I | STS_AI
 		},
 		{
 				.name = "write",
 				.toggle = STS_TA,
-				.settings = STS_BI|STS_CS|STS_DI|STS_AI
+				.settings = STS_1I | STS_2S | STS_3I | STS_AI
 		},
 		{
 				.name = "open",
 				.toggle = STS_TA,
-				.settings = STS_BS|STS_CI|STS_DI|STS_AI
+				.settings = STS_1S | STS_2I | STS_3I | STS_AI
 		},
 		{
 				.name = "close",
-				.toggle = STS_B|STS_A,
-				.settings = STS_BI|STS_AI
+				.toggle = STS_1 | STS_A,
+				.settings = STS_1I | STS_AI
 		},
 		{
 				.name = "stat",
-				.toggle = STS_B|STS_C|STS_A,
-				.settings = STS_BS
+				.toggle = STS_1 | STS_2 | STS_A,
+				.settings = STS_1S | STS_AI
 		},
 		{
 				.name = "fstat",
-				.toggle = STS_B|STS_C|STS_A,
-				.settings = STS_BI
+				.toggle = STS_1 | STS_2 | STS_A,
+				.settings = STS_1I | STS_AI
 		},
 		{
 				.name = "lstat",
-				.toggle = STS_B|STS_C|STS_A,
-				.settings = STS_BS
+				.toggle = STS_1 | STS_2 | STS_A,
+				.settings = STS_1S | STS_AI
 		},
 		{
 				.name = "poll_time64",
@@ -47,24 +49,26 @@ t_syscall syscalls[400] = {
 		{
 				.name = "lseek",
 				.toggle = STS_TA,
-				.settings = STS_BI|STS_CI|STS_DI|STS_AI
+				.settings = STS_1I | STS_2I | STS_3I | STS_AI
 		},
 		{
 				.name = "mmap",
-				.toggle = STS_TA,
+				.toggle = STS_TA | STS_TAXT,
+				.settings = STS_2I|STS_3I|STS_XT_4I|STS_XT_5I|STS_XT_6I
 		},
 		{
 				.name = "mprotect",
-				.toggle = STS_TA
+				.toggle = STS_TA,
+				.settings = STS_2I | STS_3I | STS_AI
 		},
 		{
 				.name = "munmap",
-				.toggle = STS_B|STS_C,
-				.settings = STS_CI|STS_AI
+				.toggle = STS_1 | STS_2,
+				.settings = STS_2I | STS_AI
 		},
 		{
 				.name = "brk",
-				.toggle = STS_B|STS_A,
+				.toggle = STS_1 | STS_A,
 		},
 		{
 				.name = "rt_sigaction",
@@ -84,7 +88,8 @@ t_syscall syscalls[400] = {
 		},
 		{
 				.name = "pread",
-				.toggle = STS_TA
+				.toggle = STS_TA|STS_4,
+				.settings = STS_1I|STS_3I|STS_XT_4I|STS_AI
 		},
 		{
 				.name = "pwrite",
@@ -99,8 +104,9 @@ t_syscall syscalls[400] = {
 				.toggle = STS_TA
 		},
 		{
-				.name = "acceSTS",
-				.toggle = STS_TA
+				.name = "access",
+				.toggle = STS_1 | STS_2 | STS_A,
+				.settings = STS_1S | STS_2I | STS_AI,
 		},
 		{
 				.name = "pipe",
@@ -256,7 +262,8 @@ t_syscall syscalls[400] = {
 		},
 		{
 				.name = "exit",
-				.toggle = STS_TA
+				.toggle = STS_1,
+				.settings = STS_1S
 		},
 		{
 				.name = "wait4",
@@ -939,8 +946,9 @@ t_syscall syscalls[400] = {
 				.toggle = STS_TA
 		},
 		{
-				.name = "exit",
-				.toggle = STS_TA
+				.name = "exit_group",
+				.toggle = STS_1,
+				.settings = STS_1I
 		},
 		{
 				.name = "epoll_wait",
@@ -1045,7 +1053,7 @@ t_syscall syscalls[400] = {
 		{
 				.name = "openat",
 				.toggle = STS_TA,
-				.settings = STS_BI|STS_CS|STS_DI|STS_AI,
+				.settings = STS_1I | STS_2S | STS_3I | STS_AI,
 		},
 		{
 				.name = "mkdirat",
@@ -1065,7 +1073,8 @@ t_syscall syscalls[400] = {
 		},
 		{
 				.name = "newfstatat",
-				.toggle = STS_TA
+				.toggle = STS_TA|STS_4,
+				.settings = STS_1I|STS_2S|STS_XT_4I,
 		},
 		{
 				.name = "unlinkat",

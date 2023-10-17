@@ -16,7 +16,7 @@ enum log_level {
 };
 
 # ifndef LOG_LEVEL
-#  define LOG_LEVEL ERROR
+#  define LOG_LEVEL INFO
 # endif
 
 void print_level(enum log_level level);
