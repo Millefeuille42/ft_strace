@@ -20,6 +20,7 @@ set(SOURCE_FT_STRACE
 		pkg/ft_print/ft_putnbr_base.c
 		pkg/ft_print/ft_putnbr.c
 		pkg/ft_print/ft_print.h
+		pkg/ft_print/ft_print.c
 
 		pkg/ft_log/ft_logstr.c
 		pkg/ft_log/print_level.c
@@ -65,7 +66,6 @@ set(SOURCE_FT_STRACE
 
 		cmd/syscalls.h
 		cmd/syscalls.c
-
 )
 
 add_executable(ft_strace ${SOURCE_FT_STRACE})

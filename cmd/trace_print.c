@@ -13,7 +13,7 @@ inline static int print_string_from_child(int pid, long address, size_t read_siz
 		sprintf(filename_buffer, "/proc/%d/mem", pid);
 		fd = open(filename_buffer, O_RDONLY);
 		if (errno) {
-			perror("open");
+			log_error("open");
 			return 1;
 		}
 	}
@@ -72,8 +72,8 @@ void print_registry(t_syscall *const syscall, int registry_num, void *registry, 
 	// Fallback, print pointer
 	if (!registry) ft_putstr("NULL");
 	else {
-		printf("%p", registry);
-		fflush(stdout);
+		ft_putstr("0x");
+		ft_putnbr_base((long)registry, "0123456789abcdef", 16);
 	}
 }
 

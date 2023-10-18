@@ -18,9 +18,9 @@ void ft_putstr_escape(char *str, size_t read_size) {
 	size_t len = 0;
 	for (; str[len] && len != read_size; len++) {
 		if (str[len] == '\n') {
-			write(1, "\\n", 2);
+			ft_putstr("\\n");
 			continue;
 		}
-		write(1, &str[len], 1);
+		ft_putchar(str[len]);
 	}
 }

@@ -20,6 +20,7 @@ SOURCES	=			pkg/ft_print/ft_putnbr_in_between.c \
             		pkg/ft_print/ft_putnbr_base_padded.c \
             		pkg/ft_print/ft_putnbr_base.c \
             		pkg/ft_print/ft_putnbr.c \
+					pkg/ft_print/ft_print.c \
             		pkg/ft_log/ft_logstr.c \
             		pkg/ft_log/print_level.c \
             		pkg/ft_log/ft_lognbr_in_between.c \

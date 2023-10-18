@@ -8,7 +8,7 @@ void ft_fputnbr(long n, int fd) {
 	long int nb = n;
 	if (nb < 0) {
 		nb = -nb;
-		write(1, "-", 1);
+		buffered_write(1, "-", 1);
 	}
 	if (nb > 9)
 	{
@@ -16,14 +16,14 @@ void ft_fputnbr(long n, int fd) {
 		nb = nb % 10;
 	}
 	nb = nb + 48;
-	write(fd, &nb, 1);
+	buffered_write(fd, (const char *) &nb, 1);
 }
 
 void ft_putnbr(long n) {
 	long int nb = n;
 	if (nb < 0) {
 		nb = -nb;
-		write(1, "-", 1);
+		buffered_write(1, "-", 1);
 	}
 	if (nb > 9)
 	{
@@ -31,5 +31,5 @@ void ft_putnbr(long n) {
 		nb = nb % 10;
 	}
 	nb = nb + 48;
-	write(1, &nb, 1);
+	buffered_write(1, (const char *) &nb, 1);
 }

@@ -9,7 +9,7 @@ void ft_putstr(const char *str) {
 		return;
 	size_t len = 0;
     for (; str[len]; len++) {}
-	write(1, str, len);
+	buffered_write(1, str, len);
 }
 
 void ft_fputstr(const char *str, int fd) {
@@ -17,5 +17,5 @@ void ft_fputstr(const char *str, int fd) {
 		return;
 	size_t len = 0;
 	for (; str[len]; len++);
-	write(1, str, len);
+	buffered_write(fd, str, len);
 }

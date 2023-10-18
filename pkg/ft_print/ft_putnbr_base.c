@@ -18,7 +18,7 @@ static void ft_set(unsigned long nb, long l, unsigned long bl, const char *b)
 	n[0] = b[nb];
 	i = 0;
 	while (i != l) {
-		write(1, &n[i], 1);
+		buffered_write(1, &n[i], 1);
 		i++;
 	}
 }

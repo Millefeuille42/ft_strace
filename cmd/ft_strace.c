@@ -1,11 +1,16 @@
 #include "ft_strace.h"
+#include <sys/stat.h>
 
-void start_command(char *command, char **argv) {
+void start_command(const char *command, char **argv, char **env) {
 	ft_logstr(DEBUG, "Starting process with following arguments \n");
 	for (int i = 0; argv[i]; i++) {
 		ft_logstr(DEBUG, argv[i]);
 		ft_logstr_no_header(DEBUG, "\n");
 	}
+
+	struct stat stat_buf;
+	fstatat(AT_FDCWD, argv[0], &stat_buf, 0);
+	if (errno) panic("fstatat");
 
 	int child_pid = fork();
 	switch (child_pid) {
@@ -23,7 +28,7 @@ void start_command(char *command, char **argv) {
 			//close(dev_null_fd);
 			//if (errno) panic("child close");
 
-			execvp(command, argv);
+			execve(command, argv, env);
 			if (errno)panic("execvp");
 			ft_logstr(DEBUG, "child is done\n");
 			break;
@@ -35,7 +40,7 @@ void start_command(char *command, char **argv) {
 }
 
 // TODO investigate difference with discord
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[], char *env[]) {
 	strace_args args = parse_args(argc, argv);
 	if (args.err) {
 		if (args.err == -2) return 1;
@@ -47,7 +52,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	start_command(argv[1], argv + 1);
+	start_command(argv[1], argv + 1, env);
 	ft_list *current = args.files;
 	errno = 0;
 	if (errno) log_error(current->data);

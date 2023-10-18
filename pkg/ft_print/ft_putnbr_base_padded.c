@@ -18,14 +18,14 @@ static void ft_set(unsigned long nb, long l, unsigned long bl, const char *b)
 	n[0] = b[nb];
 	i = 0;
 	while (i != l) {
-		write(1, &n[i], 1);
+		buffered_write(1, &n[i], 1);
 		i++;
 	}
 }
 
 static void ft_pad(size_t len, size_t pad_len, char pad_c) {
 	for (size_t i = pad_len - len; i > 0; i--)
-		write(1, &pad_c, 1);
+		buffered_write(1, &pad_c, 1);
 }
 
 void ft_putnbr_base_padded(unsigned long nb, char *base, size_t base_size, char pad_c, ssize_t pad_n) {
