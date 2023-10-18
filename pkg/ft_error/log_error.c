@@ -8,4 +8,5 @@ void log_error(char *add) {
     ft_logstr(ERROR, PROGRAM_NAME);
 	ft_logstr_no_header(ERROR, ": error: ");
 	ft_logstr_no_header(ERROR, add);
+	ft_logstr_no_header(ERROR, "\n");
 }

@@ -13,5 +13,9 @@ void print_level(enum log_level level) {
 			"[INFO]  -- \0",
 			"[DEBUG] -- \0",
 	};
+	if (level == ERROR) {
+		ft_fputstr(level_message[level], 2);
+		return;
+	}
 	ft_putstr(level_message[level]);
 }
