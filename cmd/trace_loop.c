@@ -57,9 +57,14 @@ void trace_loop(int pid) {
 		if (check_child_exit(status, has_ret)) break;
 		if (check_child_signal_exit(status, has_ret, pid)) break;
 
+		siginfo_t siginfo;
+		ptrace(PTRACE_GETSIGINFO, pid, NULL, &siginfo);
+
+		if (WSTOPSIG(status) != SIGTRAP) {
+			print_signal_info(&siginfo);
+		}
+
 		if (WSTOPSIG(status) != SIGCONT) {
-			siginfo_t siginfo;
-			ptrace(PTRACE_GETSIGINFO, pid, NULL, &siginfo);
 			if (siginfo.si_signo == SIGTRAP && !child_ready) {
 				prepare_child(pid);
 				child_ready = 1;
@@ -67,7 +72,7 @@ void trace_loop(int pid) {
 			}
 			if (siginfo.si_signo != SIGTRAP) {
 				if (!has_ret) ft_putstr(" = ?\n");
-				print_signal_info(&siginfo);
+				print_signal_stop(&siginfo);
 				break;
 			}
 		}

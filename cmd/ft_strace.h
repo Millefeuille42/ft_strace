@@ -36,6 +36,7 @@ typedef struct s_strace_args {
 void print_syscall_info(t_syscall *syscall, struct user_regs_struct *regs, int pid);
 void print_registry(t_syscall *syscall, int registry_num, void *registry, int pid);
 void print_signal_info(siginfo_t *siginfo);
+void print_signal_stop(siginfo_t *siginfo);
 
 void trace_loop(int pid);
 
