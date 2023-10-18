@@ -743,7 +743,7 @@ t_syscall syscalls[400] = {
 				.toggle = STS_TA
 		},
 		{
-				.name = "nfSTServctl",
+				.name = "nfsservctl",
 				.toggle = STS_TA
 		},
 		{
@@ -895,7 +895,7 @@ t_syscall syscalls[400] = {
 				.toggle = STS_TA
 		},
 		{
-				.name = "set_tid_addreSTS",
+				.name = "set_tid_address",
 				.toggle = STS_TA
 		},
 		{
@@ -1102,7 +1102,7 @@ t_syscall syscalls[400] = {
 				.toggle = STS_TA
 		},
 		{
-				.name = "facceSTSat",
+				.name = "faccessat",
 				.toggle = STS_TA
 		},
 		{
@@ -1266,11 +1266,11 @@ t_syscall syscalls[400] = {
 				.toggle = STS_TA
 		},
 		{
-				.name = "proceSTS_vm_readv",
+				.name = "process_vm_readv",
 				.toggle = STS_TA
 		},
 		{
-				.name = "proceSTS_vm_writev",
+				.name = "process_vm_writev",
 				.toggle = STS_TA
 		},
 		{
