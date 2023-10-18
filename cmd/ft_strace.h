@@ -6,7 +6,6 @@
 # define FT_STRACE_FT_STRACE_H
 
 # include <ft_print.h>
-# include <ft_list.h>
 # include <ft_string.h>
 # include <ft_error.h>
 # include <sys/wait.h>
@@ -28,21 +27,12 @@
 // TODO implement string size
 # define STRACE_MAX_STRING_SIZE 16
 
-typedef struct s_strace_args {
-	ft_list *files;
-	char flags;
-	int err;
-} strace_args;
-
-
 void print_syscall_info(t_syscall *syscall, struct user_regs_struct *regs, int pid);
 void print_registry(t_syscall *syscall, int registry_num, void *registry, int pid);
 void print_signal_info(siginfo_t *siginfo);
 void print_signal_stop(siginfo_t *siginfo);
 
 void trace_loop(int pid);
-
-strace_args parse_args(int argc, char **argv);
 
 int find_least_significant_bit_position(int value);
 void ft_putstr_escape(char *str, size_t read_size);

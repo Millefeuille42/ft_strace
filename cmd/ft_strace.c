@@ -41,22 +41,11 @@ void start_command(const char *command, char **argv, char **env) {
 
 // TODO investigate difference with discord
 int main(int argc, char *argv[], char *env[]) {
-	strace_args args = parse_args(argc, argv);
-	if (args.err) {
-		if (args.err == -2) return 1;
-		panic("allocation");
-	}
-
-	if (!args.files) {
+	if (argc <= 1) {
 		ft_fputstr("ft_strace: must have PROG [ARGS] or -p PID\nTry 'ft_strace -h' for more information.\n", 2);
 		return 1;
 	}
 
 	start_command(argv[1], argv + 1, env);
-	ft_list *current = args.files;
-	errno = 0;
-	if (errno) log_error(current->data);
-
-	delete_list_forward(&args.files, safe_free);
 	return errno;
 }

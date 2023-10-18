@@ -7,16 +7,19 @@
 inline static int print_string_from_child(int pid, long address, size_t read_size) {
 	// TODO protect all of this
 	int fd;
-	{
-		char filename_buffer[sizeof("/proc//mem") + 32];
-		ft_bzero(filename_buffer, sizeof(filename_buffer));
-		sprintf(filename_buffer, "/proc/%d/mem", pid);
-		fd = open(filename_buffer, O_RDONLY);
-		if (errno) {
-			log_error("open");
-			return 1;
-		}
+
+	flush(1);
+	ft_lognbr_in_between(NONE, "/proc/", pid, "/mem", 1);
+
+	fd = open(get_buffer(1), O_RDONLY);
+	if (errno) {
+		ft_bzero(get_buffer(1), FT_PRINT_BUFFER_SIZE);
+		*get_cursor(1) = 0;
+		log_error("open");
+		return 1;
 	}
+	ft_bzero(get_buffer(1), FT_PRINT_BUFFER_SIZE);
+	*get_cursor(1) = 0;
 
 	lseek(fd, address, SEEK_SET);
 	if (errno) {
