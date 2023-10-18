@@ -17,6 +17,7 @@
 # include <bits/types/struct_iovec.h>
 
 # include "syscalls.h"
+# include "signals.h"
 
 # define STRACE_FLAG_dirs           32              // 00100000
 
@@ -24,6 +25,7 @@
 # define STRACE_CLEAR_FLAG(flags, flag) (flags &= ~(flag))
 # define STRACE_HAS_FLAG(flags, flag) (flags & flag)
 
+// TODO implement string size
 # define STRACE_MAX_STRING_SIZE 16
 
 typedef struct s_strace_args {

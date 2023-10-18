@@ -64,8 +64,11 @@ set(SOURCE_FT_STRACE
 		cmd/trace_print.c
 		cmd/ft_strace.h
 
-		cmd/syscalls.h
 		cmd/syscalls.c
+		cmd/syscalls.h
+
+		cmd/signals.c
+		cmd/signals.h
 )
 
 add_executable(ft_strace ${SOURCE_FT_STRACE})

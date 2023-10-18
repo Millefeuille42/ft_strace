@@ -92,7 +92,7 @@ void print_syscall_info(t_syscall *syscall, struct user_regs_struct *regs, int p
 
 void print_signal_info(siginfo_t *siginfo) {
 	ft_logstr(INFO, "SIGNAL <");
-	char* signal_name = strsignal(siginfo->si_signo);
+	char* signal_name = (size_t)siginfo->si_signo > sizeof(signals) / sizeof(signals[0]) ? "UNKNOWN" : signals[siginfo->si_signo];
 	ft_logstr_no_header(INFO, signal_name);
 	ft_lognbr_in_between(INFO, "> {si_signo=", siginfo->si_signo, ", ", 1);
 	ft_lognbr_in_between(INFO, "si_code==", siginfo->si_code, ", ", 1);
@@ -102,7 +102,7 @@ void print_signal_info(siginfo_t *siginfo) {
 
 void print_signal_stop(siginfo_t *siginfo) {
 	ft_logstr(INFO, "child stopped due to signal <");
-	char* signal_name = strsignal(siginfo->si_signo);
+	char* signal_name = (size_t)siginfo->si_signo > sizeof(signals) / sizeof(signals[0]) ? "UNKNOWN" : signals[siginfo->si_signo];
 	ft_logstr_no_header(INFO, signal_name);
 	ft_lognbr_in_between(INFO, "> (", siginfo->si_signo, ")\n", 1);
 }

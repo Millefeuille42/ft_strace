@@ -42,10 +42,6 @@ typedef struct s_syscall {
 # define STS_XT_6S	4096	// 0001000000000000
 # define STS_XT_6I	8192	// 0010000000000000
 
-# define STRACE_SET_FLAG(flags, flag) (flags |= flag)
-# define STRACE_CLEAR_FLAG(flags, flag) (flags &= ~(flag))
-# define STRACE_HAS_FLAG(flags, flag) (flags & flag)
-
 extern t_syscall syscalls[400];
 extern t_syscall syscall_unknown;
 

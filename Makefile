@@ -52,6 +52,7 @@ SOURCES	=			pkg/ft_print/ft_putnbr_in_between.c \
 					cmd/trace_print.c\
             		cmd/parsing.c \
             		cmd/syscalls.c \
+            		cmd/signals.c \
 
 HEADERS	=	pkg/ft_print/ft_print.h \
             pkg/ft_log/ft_log.h \
@@ -60,6 +61,7 @@ HEADERS	=	pkg/ft_print/ft_print.h \
             pkg/ft_memory/ft_memory.h \
             pkg/ft_string/ft_string.h \
 			cmd/ft_strace.h\
+                    cmd/signals.h \
 			cmd/syscalls.h\
 
 HEADERS_DIRECTORIES	=	pkg/ft_print/ \
