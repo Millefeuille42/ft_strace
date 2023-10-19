@@ -18,14 +18,13 @@
 # include "syscalls.h"
 # include "signals.h"
 
-# define STRACE_FLAG_dirs           32              // 00100000
-
 # define STRACE_SET_FLAG(flags, flag) (flags |= flag)
 # define STRACE_CLEAR_FLAG(flags, flag) (flags &= ~(flag))
 # define STRACE_HAS_FLAG(flags, flag) (flags & flag)
 
-// TODO implement string size
-# define STRACE_MAX_STRING_SIZE 16
+# ifndef STRACE_MAX_STRING_SIZE
+#  define STRACE_MAX_STRING_SIZE 32
+# endif
 
 void print_syscall_info(t_syscall *syscall, struct user_regs_struct *regs, int pid);
 void print_registry(t_syscall *syscall, int registry_num, void *registry, int pid);

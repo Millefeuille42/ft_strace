@@ -29,8 +29,9 @@ inline static int print_string_from_child(int pid, long address, size_t read_siz
 	}
 
 	int exit = 0;
-	char buffer[1024];
+	char buffer[STRACE_MAX_STRING_SIZE + 1];
 	ft_bzero(buffer, sizeof(buffer));
+	size_t printed_count = 0;
 
 	for (;!exit;) {
 		read(fd, buffer, sizeof(buffer) - 1);
@@ -40,6 +41,12 @@ inline static int print_string_from_child(int pid, long address, size_t read_siz
 			return 1;
 		}
 
+		if (printed_count + ft_strlen(buffer) > STRACE_MAX_STRING_SIZE) {
+			ft_putstr_escape(buffer, STRACE_MAX_STRING_SIZE - printed_count);
+			ft_putstr("...");
+			break;
+		}
+		printed_count += ft_strlen(buffer);
 		ft_putstr_escape(buffer, read_size);
 		for (size_t pos = 0; pos < sizeof(buffer) - 1; pos++) if (buffer[pos] == '\0') exit = 1;
 
