@@ -64,7 +64,7 @@ t_syscall syscalls[400] = {
 		},
 		{
 				.name = "munmap",
-				.toggle = STS_1 | STS_2,
+				.toggle = STS_1 | STS_2 | STS_A,
 				.settings = STS_2I | STS_AI
 		},
 		{

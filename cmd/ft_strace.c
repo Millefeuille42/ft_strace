@@ -70,25 +70,8 @@ void start_command(char *command, char **argv, char **env) {
 		case -1:
 			return;
 		case 0:
-			// TODO this breaks nested calls to ./ft_strace (to investigate)
-			//(void)child_pid;
-			//int dev_null_fd = open("/dev/null", O_WRONLY);
-			//if (errno) panic("child open");
-			//dup2(dev_null_fd, STDOUT_FILENO);
-			//if (errno) panic("child dup2 STDOUT");
-			//dup2(dev_null_fd, STDERR_FILENO);
-			//if (errno) panic("child dup2 STDERR");
-			//close(dev_null_fd);
-			//if (errno) panic("child close");
-
-			ft_putstr(command);
-			flush(1);
 			execve(command, argv, env);
-
-			if (errno) {
-				safe_free((void *)&command);
-				panic("execve");
-			}
+			if (errno) log_error("execve");
 			ft_logstr(DEBUG, "child is done\n");
 			break;
 		default:
@@ -99,7 +82,6 @@ void start_command(char *command, char **argv, char **env) {
 	safe_free((void *)&command);
 }
 
-// TODO investigate difference with discord
 int main(int argc, char *argv[], char *env[]) {
 	if (argc <= 1) {
 		ft_fputstr("ft_strace: must have PROG [ARGS] or -p PID\nTry 'ft_strace -h' for more information.\n", 2);
