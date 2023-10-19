@@ -34,7 +34,11 @@ SOURCES	=			pkg/ft_print/ft_putnbr_in_between.c \
             		pkg/ft_string/ft_strlen.c \
             		pkg/ft_string/ft_is_alnum.c \
             		pkg/ft_string/ft_is_alpha.c \
+            		pkg/ft_string/string.c \
+                    pkg/ft_string/ft_string_concat.c \
             		pkg/ft_memory/ft_bzero.c \
+            		pkg/ft_memory/safe_free.c \
+                    pkg/ft_memory/zeroed_malloc.c \
             		cmd/ft_strace.c \
 					cmd/trace_loop.c\
 					cmd/utils.c\

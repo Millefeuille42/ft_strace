@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(ft_strace C CXX)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall -Werror -Wextra -pedantic")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Werror -Wextra -pedantic")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ")
 
 include_directories(./pkg/ft_error)
 include_directories(./pkg/ft_print)
@@ -39,9 +39,13 @@ set(SOURCE_FT_STRACE
 		pkg/ft_string/ft_strlen.c
 		pkg/ft_string/ft_is_alnum.c
 		pkg/ft_string/ft_is_alpha.c
+		pkg/ft_string/string.c
+		pkg/ft_string/ft_string_concat.c
 		pkg/ft_string/ft_string.h
 
 		pkg/ft_memory/ft_bzero.c
+		pkg/ft_memory/safe_free.c
+		pkg/ft_memory/zeroed_malloc.c
 		pkg/ft_memory/ft_memory.h
 
 		cmd/ft_strace.c

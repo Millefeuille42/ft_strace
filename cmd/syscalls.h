@@ -14,8 +14,6 @@ typedef struct s_syscall {
 	short settings;
 } t_syscall;
 
-// TODO add support of 4 5 6 parameters (r10, r8, r9)
-
 # define STS_1		1 		// 00000001
 # define STS_2		2 		// 00000010
 # define STS_3		4 		// 00000100

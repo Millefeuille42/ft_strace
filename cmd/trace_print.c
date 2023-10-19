@@ -46,6 +46,7 @@ inline static int print_string_from_child(int pid, long address, size_t read_siz
 		ft_bzero(buffer, sizeof(buffer));
 	}
 
+	close(fd);
 	return 0;
 }
 
