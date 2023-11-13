@@ -16,7 +16,7 @@
 #  define PROGRAM_NAME ""
 # endif
 
-void log_error(char *);
-void panic(char *);
+void log_error(const char *);
+void panic(const char *) __attribute__((noreturn));
 
 #endif //FT_LS_FT_ERROR_H

@@ -7,7 +7,7 @@
 void ft_bzero(void *ptr, size_t n) {
     if (!ptr)
         return;
-    unsigned char *buffer = (unsigned char *) ptr;
+    unsigned char *buffer = ptr;
     while (n-- > 0)
         *buffer++ = 0;
 }

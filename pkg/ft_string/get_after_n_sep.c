@@ -4,13 +4,12 @@
 
 #include "ft_string.h"
 
-char *get_after_last_sep(char *str, char sep) {
+char* get_after_last_sep(char* str, const char sep) {
 	if (!str)
 		return NULL;
 
-	size_t i = 0;
 	size_t last_sep = 0;
-	for (; str[i]; i++) {
+	for (size_t i = 0; str[i]; i++) {
 		if (str[i] == sep)
 			last_sep = i;
 	}
@@ -21,13 +20,12 @@ char *get_after_last_sep(char *str, char sep) {
 	return str + last_sep + 1;
 }
 
-char *get_after_n_sep(char *str, char sep, int n) {
+char* get_after_n_sep(char* str, const char sep, const size_t n) {
 	if (!str)
 		return NULL;
 
 	size_t i = 0;
-	int counter = 0;
-	for (; str[i] && counter < n; i++) {
+	for (size_t counter = 0; str[i] && counter < n; i++) {
 		if (str[i] == sep)
 			counter++;
 	}

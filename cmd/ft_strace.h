@@ -26,15 +26,15 @@
 #  define STRACE_MAX_STRING_SIZE 32
 # endif
 
-void print_syscall_info(t_syscall *syscall, struct user_regs_struct *regs, int pid);
-void print_registry(t_syscall *syscall, int registry_num, void *registry, int pid);
-void print_signal_info(siginfo_t *siginfo);
-void print_signal_stop(siginfo_t *siginfo);
+void print_syscall_info(const t_syscall *syscall, const struct user_regs_struct *regs, int pid);
+void print_registry(const t_syscall *syscall, int registry_num, void *registry, int pid);
+void print_signal_info(const siginfo_t *siginfo);
+void print_signal_stop(const siginfo_t *siginfo);
 
 void trace_loop(int pid);
 
 int find_least_significant_bit_position(int value);
-void ft_putstr_escape(char *str, size_t read_size);
+void ft_putstr_escape(const char *str, size_t read_size);
 
 
 #endif //FT_STRACE_FT_STRACE_H

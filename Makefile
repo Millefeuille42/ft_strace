@@ -79,7 +79,14 @@ DELETE		=	rm -f
 DEFINES = -DPROGRAM_NAME=\"$(NAME)\"
 
 
-FLAGS		= -Wall -Werror -Wextra -pedantic $(INCLUDES) $(DEFINES)
+FLAGS =	-Wall -Wextra \
+		-Wuninitialized -Wmissing-prototypes -Winit-self -Wfloat-equal -Wwrite-strings -Winline \
+		-Wunused-parameter -Wunused-const-variable -pedantic-errors -Wcast-qual -Wconversion \
+		-Wmissing-noreturn -Wdeclaration-after-statement -Wshadow -Wpointer-arith \
+		-Wdouble-promotion -Wnull-dereference -Wswitch-default -Wmissing-declarations \
+		-Wold-style-definition -Wundef -Wunused-macros -Wbad-function-cast -Wmissing-variable-declarations \
+		-fgnu89-inline -std=gnu99 -pedantic \
+	$(INCLUDES) $(DEFINES)
 LINK_FLAGS  =
 
 ######### Additional Paths #########

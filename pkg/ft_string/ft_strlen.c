@@ -4,8 +4,9 @@
 
 #include "ft_string.h"
 
-size_t ft_strlen(const char *str) {
-	const char *s;
-    for (s = str; *s; ++s);
-    return s - str;
+size_t ft_strlen(const char* str) {
+	const char* s;
+	for (s = str; *s; ++s) {
+	}
+	return (size_t)(s - str);
 }

@@ -4,7 +4,7 @@
 
 #include "ft_error.h"
 
-void panic(char *add) {
+void panic(const char* add) {
     log_error(add);
     exit(errno);
 }

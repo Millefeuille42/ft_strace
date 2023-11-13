@@ -4,14 +4,14 @@
 
 #include "ft_strace.h"
 
-inline static void prepare_child(int pid) {
+static void prepare_child(const int pid) {
 	ft_logstr(DEBUG, "seized child\n");
 	kill(pid, SIGCONT);
 	ptrace(PTRACE_LISTEN, pid, NULL, NULL);
 	ft_logstr(DEBUG, "child started\n");
 }
 
-inline static int check_child_exit(int status, char has_ret) {
+static int check_child_exit(const int status, const char has_ret) {
 	if (WIFEXITED(status)) {
 		if (!has_ret) ft_putstr(" = ?\n");
 		ft_lognbr_in_between(INFO, "child exited with status ", WEXITSTATUS(status), "\n", 0);
@@ -20,7 +20,7 @@ inline static int check_child_exit(int status, char has_ret) {
 	return 0;
 }
 
-inline static int check_child_signal_exit(int status, char has_ret, int pid) {
+static int check_child_signal_exit(const int status, const char has_ret, const int pid) {
 	if (WIFSIGNALED(status)) {
 		if (!has_ret) ft_putstr(" = ?\n");
 		siginfo_t siginfo;
@@ -32,15 +32,15 @@ inline static int check_child_signal_exit(int status, char has_ret, int pid) {
 	return 0;
 }
 
-inline static t_syscall *get_syscall_info(struct user_regs_struct *regs) {
+static t_syscall *get_syscall_info(const struct user_regs_struct *regs) {
 	t_syscall *syscall = &syscall_unknown;
 	if (regs->orig_rax < sizeof(syscalls) / sizeof(t_syscall)) syscall = &syscalls[regs->orig_rax];
-	syscall->read_size = ft_strcmp(syscall->name, "write") == 0 ? regs->rdx : -1;
+	syscall->read_size = ft_strcmp(syscall->name, "write") == 0 ? regs->rdx : 0;
 
 	return syscall;
 }
 
-void trace_loop(int pid) {
+void trace_loop(int const pid) {
 	struct iovec io;
 	struct user_regs_struct regs;
 	char child_ready = 0;

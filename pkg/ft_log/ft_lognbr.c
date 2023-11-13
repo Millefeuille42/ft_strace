@@ -4,7 +4,7 @@
 
 #include "ft_log.h"
 
-void ft_lognbr(enum log_level level, long n) {
+void ft_lognbr(const enum log_level level, const long n) {
 	if (level > LOG_LEVEL) return;
 	print_level(level);
 

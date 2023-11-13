@@ -4,7 +4,7 @@
 
 #include "ft_log.h"
 
-void print_level(enum log_level level) {
+void print_level(const enum log_level level) {
 	if (level > LOG_LEVEL) return;
 
 	static char level_message[ALL][12] = {

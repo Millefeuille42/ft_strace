@@ -4,12 +4,10 @@
 
 #include "ft_print.h"
 
-static void ft_set(unsigned long nb, long l, unsigned long bl, const char *b)
-{
-	int	i;
+static void ft_set(unsigned long nb, const size_t l, const size_t bl, const char* b) {
 	char n[l];
 
-	i = l - 1;
+	size_t i = l - 1;
 	while (nb >= bl) {
 		n[i] = b[(nb % bl)];
 		nb = nb / bl;
@@ -23,16 +21,13 @@ static void ft_set(unsigned long nb, long l, unsigned long bl, const char *b)
 	}
 }
 
-void ft_putnbr_base(unsigned long nb, char *base, size_t base_size)
-{
-	unsigned long nb2;
-	size_t length;
+void ft_putnbr_base(unsigned long nb, const char* base, const size_t base_size) {
+	const unsigned long nb2 = nb;
+	size_t length = 1;
 
-	nb2 = nb;
-	length = 1;
 	while (nb >= base_size) {
 		nb = nb / base_size;
 		length++;
 	}
-	ft_set(nb2, (int)length, base_size, base);
+	ft_set(nb2, length, base_size, base);
 }

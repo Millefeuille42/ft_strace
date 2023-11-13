@@ -4,14 +4,12 @@
 
 #include "ft_strace.h"
 
-inline static int print_string_from_child(int pid, long address, size_t read_size) {
+static int print_string_from_child(const int pid, const long address, const size_t read_size) {
 	// TODO protect all of this
-	int fd;
-
 	flush(1);
 	ft_lognbr_in_between(NONE, "/proc/", pid, "/mem", 1);
 
-	fd = open(get_buffer(1), O_RDONLY);
+	const int fd = open(get_buffer(1), O_RDONLY);
 	if (errno) {
 		ft_bzero(get_buffer(1), FT_PRINT_BUFFER_SIZE);
 		*get_cursor(1) = 0;
@@ -28,12 +26,11 @@ inline static int print_string_from_child(int pid, long address, size_t read_siz
 		return 1;
 	}
 
-	int exit = 0;
 	char buffer[STRACE_MAX_STRING_SIZE + 1];
 	ft_bzero(buffer, sizeof(buffer));
 	size_t printed_count = 0;
 
-	for (;!exit;) {
+	for (int exit = 0; !exit;) {
 		read(fd, buffer, sizeof(buffer) - 1);
 		if (errno) {
 			close(fd);
@@ -57,14 +54,14 @@ inline static int print_string_from_child(int pid, long address, size_t read_siz
 	return 0;
 }
 
-void print_registry(t_syscall *const syscall, int registry_num, void *registry, int pid) {
+void print_registry(const t_syscall* syscall, const int registry_num, void* registry, const int pid) {
 	if (!STRACE_HAS_FLAG(syscall->toggle, registry_num)) return;
 
-	int least_position = find_least_significant_bit_position(registry_num);
+	const int least_position = find_least_significant_bit_position(registry_num);
 	if (least_position && registry_num != STS_A)
 		ft_putstr(", ");
 
-	int offset = 1 << (2 * least_position);
+	int offset = 1 << 2 * least_position;
 	// Check for S bit (is string)
 	if (STRACE_HAS_FLAG(syscall->settings, offset)) {
 		ft_putstr("\"");
@@ -76,7 +73,7 @@ void print_registry(t_syscall *const syscall, int registry_num, void *registry, 
 	offset <<= 1;
 	// Check for I bit (is integer)
 	if (STRACE_HAS_FLAG(syscall->settings, offset)) {
-		ft_putnbr((int)(long)registry);
+		ft_putnbr((long)registry);
 		return;
 	}
 
@@ -84,11 +81,11 @@ void print_registry(t_syscall *const syscall, int registry_num, void *registry, 
 	if (!registry) ft_putstr("NULL");
 	else {
 		ft_putstr("0x");
-		ft_putnbr_base((long)registry, "0123456789abcdef", 16);
+		ft_putnbr_base((size_t)registry, "0123456789abcdef", 16);
 	}
 }
 
-void print_syscall_info(t_syscall *syscall, struct user_regs_struct *regs, int pid) {
+void print_syscall_info(const t_syscall* syscall, const struct user_regs_struct* regs, const int pid) {
 	ft_putstr(syscall->name);
 	ft_putstr("(");
 	if (STRACE_HAS_FLAG(syscall->toggle, STS_1)) print_registry(syscall, STS_1, (void *)regs->rdi, pid);
@@ -101,9 +98,11 @@ void print_syscall_info(t_syscall *syscall, struct user_regs_struct *regs, int p
 }
 
 
-void print_signal_info(siginfo_t *siginfo) {
+void print_signal_info(const siginfo_t* siginfo) {
 	ft_logstr(INFO, "SIGNAL <");
-	char* signal_name = (size_t)siginfo->si_signo > sizeof(signals) / sizeof(signals[0]) ? "UNKNOWN" : signals[siginfo->si_signo];
+	const char* signal_name = (size_t)siginfo->si_signo > sizeof(signals) / sizeof(signals[0])
+		                          ? "UNKNOWN"
+		                          : signals[siginfo->si_signo];
 	ft_logstr_no_header(INFO, signal_name);
 	ft_lognbr_in_between(INFO, "> {si_signo=", siginfo->si_signo, ", ", 1);
 	ft_lognbr_in_between(INFO, "si_code==", siginfo->si_code, ", ", 1);
@@ -111,9 +110,11 @@ void print_signal_info(siginfo_t *siginfo) {
 	ft_lognbr_in_between(INFO, "si_uid==", siginfo->si_uid, "}\n", 1);
 }
 
-void print_signal_stop(siginfo_t *siginfo) {
+void print_signal_stop(const siginfo_t* siginfo) {
 	ft_logstr(INFO, "child stopped due to signal <");
-	char* signal_name = (size_t)siginfo->si_signo > sizeof(signals) / sizeof(signals[0]) ? "UNKNOWN" : signals[siginfo->si_signo];
+	const char* signal_name = (size_t)siginfo->si_signo > sizeof(signals) / sizeof(signals[0])
+		                          ? "UNKNOWN"
+		                          : signals[siginfo->si_signo];
 	ft_logstr_no_header(INFO, signal_name);
 	ft_lognbr_in_between(INFO, "> (", siginfo->si_signo, ")\n", 1);
 }

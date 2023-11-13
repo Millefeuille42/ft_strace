@@ -4,12 +4,9 @@
 
 #include "ft_print.h"
 
-static void ft_set(unsigned long nb, long l, unsigned long bl, const char *b)
-{
-	int	i;
+static void ft_set(unsigned long nb, const size_t l, const size_t bl, const char* b) {
 	char n[l];
-
-	i = l - 1;
+	size_t i = l - 1;
 	while (nb >= bl) {
 		n[i] = b[(nb % bl)];
 		nb = nb / bl;
@@ -23,23 +20,28 @@ static void ft_set(unsigned long nb, long l, unsigned long bl, const char *b)
 	}
 }
 
-static void ft_pad(size_t len, size_t pad_len, char pad_c) {
+static void ft_pad(const size_t len, const size_t pad_len, const char pad_c) {
 	for (size_t i = pad_len - len; i > 0; i--)
 		buffered_write(1, &pad_c, 1);
 }
 
-void ft_putnbr_base_padded(unsigned long nb, char *base, size_t base_size, char pad_c, ssize_t pad_n) {
-	unsigned long nb2;
-	size_t length;
+void ft_putnbr_base_padded(
+	unsigned long nb,
+	const char* base,
+	const size_t
+	base_size,
+	const char pad_c,
+	const ssize_t pad_n
+) {
+	const unsigned long nb2 = nb;
+	size_t length = 1;
 
-	nb2 = nb;
-	length = 1;
 	while (nb >= base_size) {
 		nb = nb / base_size;
 		length++;
 	}
 
-	if (pad_n < 0) ft_pad(length, pad_n * -1, pad_c);
-	ft_set(nb2, (int)length, base_size, base);
-	if (pad_n > 0) ft_pad(length, pad_n, pad_c);
+	if (pad_n < 0) ft_pad(length, (size_t)(pad_n * -1), pad_c);
+	ft_set(nb2, length, base_size, base);
+	if (pad_n > 0) ft_pad(length, (size_t)pad_n, pad_c);
 }

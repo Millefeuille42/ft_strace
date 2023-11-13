@@ -12,11 +12,10 @@ int find_least_significant_bit_position(int value) {
 	return position;
 }
 
-void ft_putstr_escape(char *str, size_t read_size) {
+void ft_putstr_escape(const char *str, const size_t read_size) {
 	if (!str)
 		return;
-	size_t len = 0;
-	for (; str[len] && len != read_size; len++) {
+	for (size_t len = 0; str[len] && len != read_size; len++) {
 		if (str[len] == '\n') {
 			ft_putstr("\\n");
 			continue;

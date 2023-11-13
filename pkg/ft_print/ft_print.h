@@ -25,9 +25,9 @@ void ft_fputchar(char c, int fd);
 void ft_putnbr(long n);
 void ft_fputnbr(long n, int fd);
 
-void ft_putnbr_base(unsigned long nb, char *base, size_t base_size);
-void ft_putnbr_base_padded(unsigned long nb, char *base, size_t base_size, char pad_c, ssize_t pad_n);
-void ft_putnbr_in_between(char *prefix, long n, char *suffix);
+void ft_putnbr_base(unsigned long nb, const char *base, size_t base_size);
+void ft_putnbr_base_padded(unsigned long nb, const char *base, size_t base_size, char pad_c, ssize_t pad_n);
+void ft_putnbr_in_between(const char *prefix, long n, const char *suffix);
 
 ssize_t buffered_write(int fd, const char *s, size_t len);
 ssize_t flush(int fd);

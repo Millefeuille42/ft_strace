@@ -5,11 +5,11 @@ char *find_command_in_path(const char *command, char **env) {
 	char env_name_buf[6] = {0};
 	struct stat stat_buf;
 	char *end_of_path = NULL;
-	char *last_pos = NULL;
+	const char *last_pos = NULL;
 	char *ret = NULL;
 
 	for (int i = 0; env[i]; i++) {
-		size_t len = ft_strlen(env[i]);
+		const size_t len = ft_strlen(env[i]);
 		if (len <= 5) continue;
 		ft_string_copy(env[i], env_name_buf, 5);
 		if (ft_strcmp("PATH=", env_name_buf)) continue;
@@ -17,9 +17,9 @@ char *find_command_in_path(const char *command, char **env) {
 		last_pos = env[i] + 5;
 		for (size_t path_i = 1; path_i < len; path_i++) {
 			errno = 0;
-			end_of_path = get_after_n_sep(env[i], ':', (int)path_i);
+			end_of_path = get_after_n_sep(env[i], ':', path_i);
 			if (end_of_path != env[i]) end_of_path[-1] = '\0';
-			int dir_fd = open(last_pos, __O_PATH|O_DIRECTORY);
+			const int dir_fd = open(last_pos, __O_PATH|O_DIRECTORY);
 			end_of_path[-1] = ':';
 			if (errno) {
 				last_pos = end_of_path;
@@ -32,7 +32,7 @@ char *find_command_in_path(const char *command, char **env) {
 				continue;
 			}
 			close(dir_fd);
-			size_t size = (end_of_path - last_pos);
+			const size_t size = (size_t)(end_of_path - last_pos);
 			ret = malloc(sizeof(char) * size + ft_strlen(command) + 1);
 			if (!ret) return NULL;
 			ft_string_copy(last_pos, ret, size);
@@ -65,7 +65,7 @@ void start_command(char *command, char **argv, char **env) {
 		if (!command) panic("malloc error");
 	}
 
-	int child_pid = fork();
+	const int child_pid = fork();
 	switch (child_pid) {
 		case -1:
 			return;
@@ -79,10 +79,10 @@ void start_command(char *command, char **argv, char **env) {
 			trace_loop(child_pid);
 			ft_logstr(DEBUG, "Parent exited\n");
 	}
-	safe_free((void *)&command);
+	safe_free((void **)&command);
 }
 
-int main(int argc, char *argv[], char *env[]) {
+int main(const int argc, char *argv[], char *env[]) {
 	if (argc <= 1) {
 		ft_fputstr("ft_strace: must have PROG [ARGS] or -p PID\nTry 'ft_strace -h' for more information.\n", 2);
 		return 1;
