@@ -30,7 +30,7 @@ ssize_t flush(const int fd) {
 ssize_t buffered_write(const int fd, const char* s, const size_t len) {
 	char* buffer = get_buffer(fd);
 	size_t* cursor = get_cursor(fd);
-	if (!buffer | !len) return write(fd, s, len);
+	if (!buffer || !cursor || !len) return write(fd, s, len);
 
 	size_t count = 0;
 	for (; count < len; count++) {

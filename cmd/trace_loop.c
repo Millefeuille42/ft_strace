@@ -34,8 +34,8 @@ static int check_child_signal_exit(const int status, const char has_ret, const i
 
 static t_syscall *get_syscall_info(const struct user_regs_struct *regs) {
 	t_syscall *syscall = &syscall_unknown;
-	if (regs->orig_rax < sizeof(syscalls) / sizeof(t_syscall)) syscall = &syscalls[regs->orig_rax];
-	syscall->read_size = ft_strcmp(syscall->name, "write") == 0 ? regs->rdx : 0;
+	if ((size_t)regs->REG_SYSNUM < sizeof(syscalls) / sizeof(t_syscall)) syscall = &syscalls[regs->REG_SYSNUM];
+	syscall->read_size = ft_strcmp(syscall->name, "write") == 0 ? (size_t)regs->REG_PARAM_3 : 0;
 
 	return syscall;
 }
@@ -82,12 +82,12 @@ void trace_loop(int const pid) {
 		ptrace(PTRACE_GETREGSET, pid, NT_PRSTATUS, &io);
 		t_syscall *syscall = get_syscall_info(&regs);
 
-		// TODO Check behavior on 32 bits
-		if (regs.rax != 0xfffffffffffffffe) {
-			if (regs.rax != 0xffffffffffffffda) {
+		if (regs.REG_RET != REG_RET_PRINT) {
+			if (regs.REG_RET != REG_RET_PRINT_BODY) {
 				if (has_body) {
 					ft_putstr(" = ");
-					if (STRACE_HAS_FLAG(syscall->toggle, STS_A)) print_registry(syscall, STS_A, (void *)regs.rax, pid);
+					STRACE_SET_FLAG(syscall->toggle, STS_A);
+					print_registry(syscall, STS_A, (void *)regs.REG_RET, pid);
 					ft_putstr("\n");
 				}
 				has_ret = 1;
