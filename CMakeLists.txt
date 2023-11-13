@@ -47,10 +47,7 @@ set(SOURCE_FT_STRACE
         pkg/ft_string/ft_string_copy.c
         pkg/ft_string/get_after_n_sep.c
         pkg/ft_string/ft_strcmp.c
-        pkg/ft_string/ft_to_lower.c
         pkg/ft_string/ft_strlen.c
-        pkg/ft_string/ft_is_alnum.c
-        pkg/ft_string/ft_is_alpha.c
         pkg/ft_string/string.c
         pkg/ft_string/ft_string_concat.c
         pkg/ft_string/ft_string.h
@@ -64,13 +61,12 @@ set(SOURCE_FT_STRACE
         cmd/trace_loop.c
         cmd/utils.c
         cmd/trace_print.c
+        cmd/signals.c
         cmd/ft_strace.h
 
         cmd/syscalls.c
         cmd/syscalls.h
 
-        cmd/signals.c
-        cmd/signals.h
 )
 
 add_executable(ft_strace ${SOURCE_FT_STRACE})

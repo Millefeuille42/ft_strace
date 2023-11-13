@@ -1,12 +1,12 @@
 #include "ft_strace.h"
 #include <sys/stat.h>
 
-char *find_command_in_path(const char *command, char **env) {
+static char* find_command_in_path(const char* command, char** env) {
 	char env_name_buf[6] = {0};
 	struct stat stat_buf;
-	char *end_of_path = NULL;
-	const char *last_pos = NULL;
-	char *ret = NULL;
+	char* end_of_path = NULL;
+	const char* last_pos = NULL;
+	char* ret = NULL;
 
 	for (int i = 0; env[i]; i++) {
 		const size_t len = ft_strlen(env[i]);
@@ -19,7 +19,7 @@ char *find_command_in_path(const char *command, char **env) {
 			errno = 0;
 			end_of_path = get_after_n_sep(env[i], ':', path_i);
 			if (end_of_path != env[i]) end_of_path[-1] = '\0';
-			const int dir_fd = open(last_pos, __O_PATH|O_DIRECTORY);
+			const int dir_fd = open(last_pos, __O_PATH | O_DIRECTORY);
 			end_of_path[-1] = ':';
 			if (errno) {
 				last_pos = end_of_path;
@@ -48,7 +48,7 @@ char *find_command_in_path(const char *command, char **env) {
 	return ret;
 }
 
-void start_command(char *command, char **argv, char **env) {
+static void start_command(char* command, char** argv, char** env) {
 	ft_logstr(DEBUG, "Starting process with following arguments \n");
 	for (int i = 0; argv[i]; i++) {
 		ft_logstr(DEBUG, argv[i]);
@@ -60,7 +60,8 @@ void start_command(char *command, char **argv, char **env) {
 	if (errno) {
 		command = find_command_in_path(command, env);
 		if (!command) panic("not found");
-	} else {
+	}
+	else {
 		command = ft_string(command);
 		if (!command) panic("malloc error");
 	}
@@ -82,7 +83,7 @@ void start_command(char *command, char **argv, char **env) {
 	safe_free((void **)&command);
 }
 
-int main(const int argc, char *argv[], char *env[]) {
+int main(const int argc, char* argv[], char* env[]) {
 	if (argc <= 1) {
 		ft_fputstr("ft_strace: must have PROG [ARGS] or -p PID\nTry 'ft_strace -h' for more information.\n", 2);
 		return 1;

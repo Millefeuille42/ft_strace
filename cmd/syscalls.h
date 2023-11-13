@@ -14,31 +14,27 @@ typedef struct s_syscall {
 	short settings;
 } t_syscall;
 
-#ifdef __x86_64__
-# define REG_PARAM_1 rdi
-# define REG_PARAM_2 rsi
-# define REG_PARAM_3 rdx
-# define REG_PARAM_4 r10
-# define REG_PARAM_5 r8
-# define REG_PARAM_6 r9
-# define REG_RET rax
-# define REG_SYSNUM orig_rax
+# define REG_x86_64_PARAM_1 rdi
+# define REG_x86_64_PARAM_2 rsi
+# define REG_x86_64_PARAM_3 rdx
+# define REG_x86_64_PARAM_4 r10
+# define REG_x86_64_PARAM_5 r8
+# define REG_x86_64_PARAM_6 r9
+# define REG_x86_64_RET rax
+# define REG_x86_64_SYSNUM orig_rax
+# define REG_x86_64_RET_PRINT (unsigned long long int)0xfffffffffffffffe
+# define REG_x86_64_RET_PRINT_BODY (unsigned long long int)0xffffffffffffffda
 
-# define REG_RET_PRINT (unsigned long long int)0xfffffffffffffffe
-# define REG_RET_PRINT_BODY (unsigned long long int)0xffffffffffffffda
-#else
-# define REG_PARAM_1 ebx
-# define REG_PARAM_2 ecx
-# define REG_PARAM_3 edx
-# define REG_PARAM_4 esi
-# define REG_PARAM_5 edi
-# define REG_PARAM_6 ebp
-# define REG_RET eax
-# define REG_SYSNUM orig_eax
-
-# define REG_RET_PRINT (long int)0xfffffffe
-# define REG_RET_PRINT_BODY (long int)0xffffffda
-#endif
+# define REG_i386_PARAM_1 ebx
+# define REG_i386_PARAM_2 ecx
+# define REG_i386_PARAM_3 edx
+# define REG_i386_PARAM_4 esi
+# define REG_i386_PARAM_5 edi
+# define REG_i386_PARAM_6 ebp
+# define REG_i386_RET eax
+# define REG_i386_SYSNUM orig_eax
+# define REG_i386_RET_PRINT (long int)0xfffffffe
+# define REG_i386_RET_PRINT_BODY (long int)0xffffffda
 
 # define STS_1		1 		// 00000001
 # define STS_2		2 		// 00000010
@@ -66,11 +62,8 @@ typedef struct s_syscall {
 # define STS_6S	4096	// 0001000000000000
 # define STS_6I	8192	// 0010000000000000
 
-#ifdef __x86_64__
-extern t_syscall syscalls[402];
-#else
-extern t_syscall syscalls[385];
-#endif
+extern t_syscall x86_64_syscalls[402];
+extern t_syscall i386_syscalls[385];
 extern t_syscall syscall_unknown;
 
 #endif //FT_STRACE_SYSCALLS_H

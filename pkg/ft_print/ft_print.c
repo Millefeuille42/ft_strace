@@ -4,6 +4,8 @@
 
 #include "ft_print.h"
 
+void final_flush(void);
+
 size_t* get_cursor(const int fd) {
 	static size_t cursor[2] = {0};
 	return fd != 1 && fd != 2 ? NULL : &cursor[fd - 1];

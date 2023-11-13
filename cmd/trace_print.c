@@ -4,7 +4,7 @@
 
 #include "ft_strace.h"
 
-static void print_string_from_child(const int pid, long address, const size_t read_size) {
+static void print_string_from_child(const int pid, size_t address, const size_t read_size) {
 #if FT_PRINT_BUFFER_SIZE < 50
 	ft_putstr("0x");
 	ft_putnbr_base((size_t)address, "0123456789abcdef", 16);
@@ -26,8 +26,7 @@ static void print_string_from_child(const int pid, long address, const size_t re
 	ft_bzero(get_buffer(1), FT_PRINT_BUFFER_SIZE);
 	*get_cursor(1) = 0;
 
-	const unsigned long offset = (unsigned long)address;
-	lseek(fd, (__off_t)offset, SEEK_SET);
+	lseek(fd, (__off_t)address, SEEK_SET);
 	if (errno) {
 		close(fd);
 		log_error("lseek");
@@ -65,7 +64,7 @@ static void print_string_from_child(const int pid, long address, const size_t re
 #endif
 }
 
-void print_registry(const t_syscall* syscall, const int registry_num, void* registry, const int pid) {
+void print_registry(const t_syscall* syscall, const int registry_num, const size_t registry, const int pid) {
 	if (!STRACE_HAS_FLAG(syscall->toggle, registry_num)) return;
 
 	const int least_position = find_least_significant_bit_position(registry_num);
@@ -75,7 +74,7 @@ void print_registry(const t_syscall* syscall, const int registry_num, void* regi
 	int offset = 1 << 2 * least_position;
 	// Check for S bit (is string)
 	if (STRACE_HAS_FLAG(syscall->settings, offset)) {
-		print_string_from_child(pid, (long)registry, syscall->read_size);
+		print_string_from_child(pid, registry, syscall->read_size);
 		return;
 	}
 
@@ -94,15 +93,27 @@ void print_registry(const t_syscall* syscall, const int registry_num, void* regi
 	}
 }
 
-void print_syscall_info(const t_syscall* syscall, const struct user_regs_struct* regs, const int pid) {
+void i386_print_syscall_info(const t_syscall* syscall, const i386_regset* regs, const int pid) {
 	ft_putstr(syscall->name);
 	ft_putstr("(");
-	if (STRACE_HAS_FLAG(syscall->toggle, STS_1)) print_registry(syscall, STS_1, (void *)regs->REG_PARAM_1, pid);
-	if (STRACE_HAS_FLAG(syscall->toggle, STS_2)) print_registry(syscall, STS_2, (void *)regs->REG_PARAM_2, pid);
-	if (STRACE_HAS_FLAG(syscall->toggle, STS_3)) print_registry(syscall, STS_3, (void *)regs->REG_PARAM_3, pid);
-	if (STRACE_HAS_FLAG(syscall->toggle, STS_4)) print_registry(syscall, STS_4, (void *)regs->REG_PARAM_4, pid);
-	if (STRACE_HAS_FLAG(syscall->toggle, STS_5)) print_registry(syscall, STS_5, (void *)regs->REG_PARAM_5, pid);
-	if (STRACE_HAS_FLAG(syscall->toggle, STS_6)) print_registry(syscall, STS_6, (void *)regs->REG_PARAM_6, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_1)) print_registry(syscall, STS_1, regs->REG_i386_PARAM_1, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_2)) print_registry(syscall, STS_2, regs->REG_i386_PARAM_2, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_3)) print_registry(syscall, STS_3, regs->REG_i386_PARAM_3, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_4)) print_registry(syscall, STS_4, regs->REG_i386_PARAM_4, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_5)) print_registry(syscall, STS_5, regs->REG_i386_PARAM_5, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_6)) print_registry(syscall, STS_6, regs->REG_i386_PARAM_6, pid);
+	ft_putstr(")");
+}
+
+void x86_64_print_syscall_info(const t_syscall* syscall, const x86_64_regset* regs, const int pid) {
+	ft_putstr(syscall->name);
+	ft_putstr("(");
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_1)) print_registry(syscall, STS_1, regs->REG_x86_64_PARAM_1, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_2)) print_registry(syscall, STS_2, regs->REG_x86_64_PARAM_2, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_3)) print_registry(syscall, STS_3, regs->REG_x86_64_PARAM_3, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_4)) print_registry(syscall, STS_4, regs->REG_x86_64_PARAM_4, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_5)) print_registry(syscall, STS_5, regs->REG_x86_64_PARAM_5, pid);
+	if (STRACE_HAS_FLAG(syscall->toggle, STS_6)) print_registry(syscall, STS_6, regs->REG_x86_64_PARAM_6, pid);
 	ft_putstr(")");
 }
 

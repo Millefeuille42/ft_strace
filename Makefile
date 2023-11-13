@@ -30,10 +30,7 @@ SOURCES	=			pkg/ft_print/ft_putnbr_in_between.c \
             		pkg/ft_string/ft_string_copy.c \
             		pkg/ft_string/get_after_n_sep.c \
             		pkg/ft_string/ft_strcmp.c \
-            		pkg/ft_string/ft_to_lower.c \
             		pkg/ft_string/ft_strlen.c \
-            		pkg/ft_string/ft_is_alnum.c \
-            		pkg/ft_string/ft_is_alpha.c \
             		pkg/ft_string/string.c \
                     pkg/ft_string/ft_string_concat.c \
             		pkg/ft_memory/ft_bzero.c \
