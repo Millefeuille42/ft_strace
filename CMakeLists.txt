@@ -19,7 +19,6 @@ set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Wextra \
 
 include_directories(./pkg/ft_error)
 include_directories(./pkg/ft_print)
-include_directories(./pkg/ft_list)
 include_directories(./pkg/ft_string)
 include_directories(./pkg/ft_memory)
 include_directories(./pkg/ft_log)

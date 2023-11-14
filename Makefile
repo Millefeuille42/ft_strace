@@ -42,7 +42,6 @@ SOURCES	=			pkg/ft_print/ft_putnbr_in_between.c \
 HEADERS	=	pkg/ft_print/ft_print.h \
             pkg/ft_log/ft_log.h \
             pkg/ft_error/ft_error.h \
-            pkg/ft_list/ft_list.h \
             pkg/ft_memory/ft_memory.h \
             pkg/ft_string/ft_string.h \
 			cmd/ft_strace.h\
@@ -52,7 +51,6 @@ HEADERS	=	pkg/ft_print/ft_print.h \
 HEADERS_DIRECTORIES	=	pkg/ft_print/ \
                         pkg/ft_log/ \
                         pkg/ft_error/ \
-                        pkg/ft_list/ \
                         pkg/ft_memory/ \
                         pkg/ft_string/ \
                         cmd/ \
