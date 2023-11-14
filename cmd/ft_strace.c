@@ -1,6 +1,7 @@
 #include "ft_strace.h"
 #include <sys/stat.h>
 
+#ifndef FT_STRACE_PORTABLE
 static char* find_command_in_path(const char* command, char** env) {
 	char env_name_buf[6] = {0};
 	struct stat stat_buf;
@@ -47,6 +48,13 @@ static char* find_command_in_path(const char* command, char** env) {
 	errno = 0;
 	return ret;
 }
+#endif
+
+static void exec_command(void *param) {
+	const struct command_struct *command = param;
+	execve(command->command, command->argv, command->env);
+	if (errno) log_error("execve");
+}
 
 static void start_command(char* command, char** argv, char** env) {
 	ft_logstr(DEBUG, "Starting process with following arguments \n");
@@ -57,6 +65,7 @@ static void start_command(char* command, char** argv, char** env) {
 
 	struct stat stat_buf;
 	fstatat(AT_FDCWD, argv[0], &stat_buf, 0);
+#ifndef FT_STRACE_PORTABLE
 	if (errno) {
 		command = find_command_in_path(command, env);
 		if (!command) panic("not found");
@@ -65,22 +74,18 @@ static void start_command(char* command, char** argv, char** env) {
 		command = ft_string(command);
 		if (!command) panic("malloc error");
 	}
+#endif
 
-	const int child_pid = fork();
-	switch (child_pid) {
-		case -1:
-			return;
-		case 0:
-			execve(command, argv, env);
-			if (errno) log_error("execve");
-			ft_logstr(DEBUG, "child is done\n");
-			break;
-		default:
-			ft_logstr(DEBUG, "in parent\n");
-			trace_loop(child_pid);
-			ft_logstr(DEBUG, "Parent exited\n");
-	}
+	struct command_struct param = {
+		.command = command,
+		.argv = argv,
+		.env = env
+	};
+	trace(exec_command, &param);
+
+#ifndef FT_STRACE_PORTABLE
 	safe_free((void **)&command);
+#endif
 }
 
 int main(const int argc, char* argv[], char* env[]) {

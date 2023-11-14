@@ -31,17 +31,13 @@ SOURCES	=			pkg/ft_print/ft_putnbr_in_between.c \
             		pkg/ft_string/get_after_n_sep.c \
             		pkg/ft_string/ft_strcmp.c \
             		pkg/ft_string/ft_strlen.c \
-            		pkg/ft_string/string.c \
-                    pkg/ft_string/ft_string_concat.c \
             		pkg/ft_memory/ft_bzero.c \
-            		pkg/ft_memory/safe_free.c \
-                    pkg/ft_memory/zeroed_malloc.c \
-            		cmd/ft_strace.c \
 					cmd/trace_loop.c\
 					cmd/utils.c\
 					cmd/trace_print.c\
             		cmd/syscalls.c \
             		cmd/signals.c \
+            		cmd/libtrace.c \
 
 HEADERS	=	pkg/ft_print/ft_print.h \
             pkg/ft_log/ft_log.h \
@@ -50,7 +46,7 @@ HEADERS	=	pkg/ft_print/ft_print.h \
             pkg/ft_memory/ft_memory.h \
             pkg/ft_string/ft_string.h \
 			cmd/ft_strace.h\
-                    cmd/signals.h \
+			cmd/libtrace.h\
 			cmd/syscalls.h\
 
 HEADERS_DIRECTORIES	=	pkg/ft_print/ \
@@ -67,11 +63,14 @@ INCLUDES =	$(addprefix -I, $(HEADERS_DIRECTORIES))
 
 NAME	=	ft_strace
 SOURCES_EXTENSION = c
+LIB_LINK_NAME	=	libtrace.so
+LIB_SHORT_NAME = libtrace
 
 ######### Compilation #########
 
 COMPILE		=	clang
 DELETE		=	rm -f
+LIB			=	ar rc
 
 DEFINES = -DPROGRAM_NAME=\"$(NAME)\"
 
@@ -95,6 +94,27 @@ ifdef LOG_LEVEL
 else
         DEFINES +=  -DLOG_LEVEL=INFO
 endif
+
+ifneq ($(filter lib, $(MAKECMDGOALS)), lib)
+	SOURCES +=	cmd/ft_strace.c
+else
+	PORTABLE = 1
+endif
+
+ifdef PORTABLE
+        DEFINES +=  -DFT_STRACE_PORTABLE
+else
+		SOURCES +=	pkg/ft_string/string.c \
+                    pkg/ft_string/ft_string_concat.c \
+					pkg/ft_memory/safe_free.c \
+                  	pkg/ft_memory/zeroed_malloc.c
+endif
+
+ifeq ($(HOSTTYPE),)
+	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+LIB_NAME := $(LIB_SHORT_NAME)_$(HOSTTYPE).so
+
 
 # ################################### #
 #        DO NOT ALTER FURTHER!        #
@@ -123,9 +143,14 @@ $(NAME):  $(OBJS) ## Compile project
 			@printf "$(LINKING) %s\n" $@
 			@$(COMPILE) $(FLAGS) $^ $(LINK_FLAGS) -o $@
 
+lib: $(OBJS)
+	$(LIB) $(LIB_NAME) $(OBJS)
+	rm -f $(LIB_LINK_NAME)
+	ln -s $(shell pwd)/$(LIB_NAME) $(LIB_LINK_NAME)
+
 clean: clean_deps clean_objs ## Delete object files
 
-fclean:	clean clean_bin ## Delete object files and binary
+fclean:	clean clean_bin clean_lib ## Delete object files and binary
 
 re:	fclean ## Delete object files and binary, then recompile all
 			@make --no-print-directory all
@@ -145,6 +170,11 @@ clean_objs:
 clean_bin:
 		@printf "$(DELETING) %s\n" $(NAME)
 		@$(DELETE) $(NAME)
+clean_lib:
+		@printf "$(DELETING) %s\n" $(LIB_NAME)
+		@rm -f $(LIB_LINK_NAME) $(LIB_NAME)
+		@printf "$(DELETING) %s\n" $(LIB_LINK_NAME)
+		@rm -f $(LIB_LINK_NAME)
 
 #########  Implicit Rules  #########
 

@@ -14,6 +14,7 @@
 # include <bits/types/struct_iovec.h>
 
 # include "syscalls.h"
+# include "libtrace.h"
 
 # define STRACE_SET_FLAG(flags, flag) (flags |= flag)
 # define STRACE_CLEAR_FLAG(flags, flag) (flags &= ~(flag))
@@ -74,6 +75,12 @@ typedef struct s_x86_64_regset {
 	__extension__ unsigned long long int fs;
 	__extension__ unsigned long long int gs;
 } x86_64_regset;
+
+struct command_struct {
+	char *command;
+	char **argv;
+	char **env;
+};
 
 void i386_print_syscall_info(const t_syscall* syscall, const i386_regset* regs, int pid);
 

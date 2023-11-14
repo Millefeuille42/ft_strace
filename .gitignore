@@ -3,3 +3,5 @@
 .objs
 ft_strace
 cmake-build-debug
+*.so
+*.out

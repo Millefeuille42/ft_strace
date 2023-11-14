@@ -66,6 +66,8 @@ set(SOURCE_FT_STRACE
 
         cmd/syscalls.c
         cmd/syscalls.h
+        cmd/libtrace.c
+        cmd/libtrace.h
 
 )
 
