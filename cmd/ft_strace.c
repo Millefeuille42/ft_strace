@@ -74,6 +74,8 @@ static void start_command(char* command, char** argv, char** env) {
 		command = ft_string(command);
 		if (!command) panic("malloc error");
 	}
+#else
+	if (errno) panic("not found");
 #endif
 
 	struct command_struct param = {
