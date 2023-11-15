@@ -2,20 +2,10 @@ cmake_minimum_required(VERSION 3.10)
 project(ft_strace C CXX)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra \
-	-Wuninitialized -Wmissing-prototypes -Winit-self -Wfloat-equal -Wwrite-strings -Winline \
-	-Wunused-parameter -Wunused-const-variable -pedantic-errors -Wcast-qual -Wconversion \
-    -Wmissing-noreturn -Wdeclaration-after-statement -Wshadow -Wpointer-arith -Wpadded \
-	-Wdouble-promotion -Wnull-dereference -Wswitch-default -Wmissing-declarations \
-	-Wold-style-definition -Wundef -Wunused-macros -Wbad-function-cast -Wmissing-variable-declarations \
-	-fgnu89-inline -pedantic")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Wextra \
-	-Wuninitialized -Wmissing-prototypes -Winit-self -Wfloat-equal -Wwrite-strings -Winline \
-	-Wunused-parameter -Wunused-const-variable -pedantic-errors -Wcast-qual -Wconversion \
-    -Wmissing-noreturn -Wdeclaration-after-statement -Wshadow -Wpointer-arith -Wpadded \
-	-Wdouble-promotion -Wnull-dereference -Wswitch-default -Wmissing-declarations \
-	-Wold-style-definition -Wundef -Wunused-macros -Wbad-function-cast -Wmissing-variable-declarations \
-	-fgnu89-inline -pedantic")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -std=gnu89 -pedantic -Wmissing-prototypes -Wstrict-prototypes \
+        -Wold-style-definition")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Wextra -std=gnu89 -pedantic -Wmissing-prototypes -Wstrict-prototypes \
+        -Wold-style-definition")
 
 include_directories(./pkg/ft_error)
 include_directories(./pkg/ft_print)
