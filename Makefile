@@ -73,8 +73,8 @@ LIB			=	ar rc
 DEFINES = -DPROGRAM_NAME=\"$(NAME)\"
 
 
-FLAGS =	-Wall -Wextra -std=gnu89 -pedantic -Wmissing-prototypes -Wstrict-prototypes \
-        -Wold-style-definition \
+FLAGS =	-Wall -Wextra -std=c99 -pedantic -Wmissing-prototypes -Wstrict-prototypes \
+		-Wold-style-definition -D_POSIX_C_SOURCE=200809L \
 	$(INCLUDES) $(DEFINES)
 LINK_FLAGS  =
 
