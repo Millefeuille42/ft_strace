@@ -79,7 +79,7 @@ FLAGS =	-Wall -Wextra \
 		-Wmissing-noreturn -Wdeclaration-after-statement -Wshadow -Wpointer-arith \
 		-Wdouble-promotion -Wnull-dereference -Wswitch-default -Wmissing-declarations \
 		-Wold-style-definition -Wundef -Wunused-macros -Wbad-function-cast -Wmissing-variable-declarations \
-		-fgnu89-inline -std=gnu99 -pedantic \
+		-fgnu89-inline -pedantic \
 	$(INCLUDES) $(DEFINES)
 LINK_FLAGS  =
 
