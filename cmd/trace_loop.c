@@ -95,9 +95,25 @@ void trace_loop(int const pid) {
 	char child_ready = 0;
 	char has_ret = 0;
 	char has_body = 0;
-
+	sigset_t empty;
+	sigemptyset(&empty);
+	sigset_t blocked = empty;
+	sigset_t core = empty;
+	sigaddset(&blocked, SIGHUP);
+	sigaddset(&blocked, SIGINT);
+	sigaddset(&blocked, SIGQUIT);
+	sigaddset(&blocked, SIGTERM);
+	sigaddset(&blocked, SIGPIPE);
+	sigaddset(&core, SIGILL);
+	sigaddset(&core, SIGABRT);
+	sigaddset(&core, SIGFPE);
+	sigaddset(&core, SIGBUS);
+	sigaddset(&core, SIGSEGV);
+	sigaddset(&core, SIGSYS);
 	ptrace(PTRACE_SEIZE, pid, NULL, PTRACE_O_TRACEEXEC);
 	ptrace(PTRACE_INTERRUPT, pid, NULL, NULL);
+	sigprocmask(SIG_SETMASK, &empty, NULL);
+	sigprocmask(SIG_BLOCK, &blocked, NULL);
 
 	while (1) {
 		int status = 0;
@@ -119,9 +135,15 @@ void trace_loop(int const pid) {
 				child_ready = 1;
 				continue;
 			}
-			if (siginfo.si_signo != SIGTRAP) {
+			if (sigismember(&core, siginfo.si_signo)) {
 				if (!has_ret) ft_putstr(" = ?\n");
 				print_signal_stop(&siginfo);
+				break;
+			}
+			if (siginfo.si_signo == SIGINT) {
+				if (!has_ret) ft_putstr(" = ?\n");
+				ft_logstr(INFO, "child detached\n");
+				ptrace(PTRACE_SYSCALL, pid, NULL, NULL);
 				break;
 			}
 		}
