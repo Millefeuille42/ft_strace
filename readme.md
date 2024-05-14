@@ -8,6 +8,8 @@ Create a program that does the same thing as strace (minus the flags)
 This project is quite hard, there is a lot of stuff going on and some of
 ✨ **M A G I C** ✨ going on with ptrace... Lot of documentation to read.
 
+My code is terrible, since it's "patches" stacked on top of eachother with some month apart...
+
 I'd recommend to:
 - Check documentation about signals
 - Check documentation about syscalls and registers
