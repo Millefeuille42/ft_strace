@@ -10,11 +10,12 @@ void trace(void (*f)(void *), void *param) {
 		case -1:
 			return;
 		case 0:
+            raise(SIGSTOP);
 			f(param);
 			if (errno) log_error("execve");
 			break;
 		default:
 			ft_logstr(DEBUG, "in parent\n");
-		trace_loop(child_pid);
+			trace_loop(child_pid);
 	}
 }

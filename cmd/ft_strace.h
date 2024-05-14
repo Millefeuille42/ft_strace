@@ -24,8 +24,6 @@
 #  define STRACE_MAX_STRING_SIZE 32
 # endif
 
-extern char signals[35][11];
-
 typedef struct s_i386_regset {
 	uint32_t ebx;
 	uint32_t ecx;
@@ -82,6 +80,13 @@ struct command_struct {
 	char **env;
 };
 
+static union {
+    x86_64_regset x86_64_r;
+    i386_regset i386_r;
+} x86_regs_union;
+# define x86_64_regs x86_regs_union.x86_64_r
+# define i386_regs   x86_regs_union.i386_r
+
 void i386_print_syscall_info(const t_syscall* syscall, const i386_regset* regs, int pid);
 
 void x86_64_print_syscall_info(const t_syscall* syscall, const x86_64_regset* regs, int pid);
@@ -98,5 +103,7 @@ int find_least_significant_bit_position(int value);
 
 void ft_putstr_escape(const char* str, size_t read_size);
 
+const char* get_signal_name(int signum);
+sigset_t create_core_set(void);
 
 #endif //FT_STRACE_FT_STRACE_H

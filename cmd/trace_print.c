@@ -119,11 +119,11 @@ void x86_64_print_syscall_info(const t_syscall* syscall, const x86_64_regset* re
 
 
 void print_signal_info(const siginfo_t* siginfo) {
+    if (siginfo->si_signo <= 0 || siginfo->si_signo > SIGSYS) return;
 	ft_logstr(INFO, "SIGNAL <");
-	const char* signal_name = (size_t)siginfo->si_signo > sizeof(signals) / sizeof(signals[0])
-		                          ? "UNKNOWN"
-		                          : signals[siginfo->si_signo];
-	ft_logstr_no_header(INFO, signal_name);
+	ft_logstr_no_header(INFO, get_signal_name((size_t)siginfo->si_signo));
+	ft_logstr_no_header(INFO, " -- ");
+	ft_logstr_no_header(INFO, strsignal((size_t)siginfo->si_signo));
 	ft_lognbr_in_between(INFO, "> {si_signo=", siginfo->si_signo, ", ", 1);
 	ft_lognbr_in_between(INFO, "si_code==", siginfo->si_code, ", ", 1);
 	ft_lognbr_in_between(INFO, "si_pid==", siginfo->si_pid, ", ", 1);
@@ -132,9 +132,8 @@ void print_signal_info(const siginfo_t* siginfo) {
 
 void print_signal_stop(const siginfo_t* siginfo) {
 	ft_logstr(INFO, "child stopped due to signal <");
-	const char* signal_name = (size_t)siginfo->si_signo > sizeof(signals) / sizeof(signals[0])
-		                          ? "UNKNOWN"
-		                          : signals[siginfo->si_signo];
-	ft_logstr_no_header(INFO, signal_name);
+	ft_logstr_no_header(INFO, get_signal_name((size_t)siginfo->si_signo));
+	ft_logstr_no_header(INFO, " -- ");
+	ft_logstr_no_header(INFO, strsignal((size_t)siginfo->si_signo));
 	ft_lognbr_in_between(INFO, "> (", siginfo->si_signo, ")\n", 1);
 }
